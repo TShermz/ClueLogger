@@ -1,0 +1,13 @@
+.btn-group {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin-top: .5rem;
+}
+.btn {
+  border: solid black 2px;
+}
+
+.selected {
+  background-color: rgb(218, 86, 59);
+}

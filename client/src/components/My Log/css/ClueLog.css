@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+.form-check {
+  color: black;
+}
+
+.clue-log-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  width: 62%;
+  height: auto;
+  margin: 1rem auto 2rem auto;
+  background-color: rgba(198, 173, 130, 0.985);
+  border-radius: 0.5rem;
+  border: black solid 3px;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.clue-log {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 4.5rem);
+  grid-gap: 0.5rem;
+  justify-content: space-between;
+  column-gap: 0.5rem;
+  padding: 1rem 0 1rem 0;
+}
+
