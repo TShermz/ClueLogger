@@ -1,4 +1,4 @@
-import "./css/ClueLogButtons.css";
+import "./ClueLogButtons.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 import { clueLogActions } from "../../store/clueLog";

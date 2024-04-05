@@ -1,4 +1,4 @@
-import './css/ClueItem.css';
+import './ClueItem.css';
 import generalJSON from "../../data/general.json";
 
 export default function ClueItem({ item }) {

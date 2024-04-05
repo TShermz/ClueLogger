@@ -1,4 +1,4 @@
-import './css/ClueLogFilter.css';
+import './ClueLogFilter.css';
 import Form from "react-bootstrap/Form";
 
 export default function ClueLogFilter() {

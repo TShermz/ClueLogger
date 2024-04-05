@@ -1,0 +1,14 @@
+#basic-nav-dropdown {
+    font-weight: 500;
+    color: black;
+}
+
+.me-auto a {
+    font-weight: 500;
+    color: black;
+}
+
+.auth {
+    align-self: flex-end;
+    margin: 0 auto !important;
+}

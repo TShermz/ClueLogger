@@ -1,4 +1,4 @@
-import "./css/ClueLog.css";
+import "./ClueLog.css";
 
 import { useState } from "react";
 import { useSelector } from "react-redux";
