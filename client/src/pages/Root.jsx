@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
 
-import Header from '../components/Header';
 import { useEffect } from 'react';
+import MainNavigation from '../components/MainNavigation';
 // import { getTokenDuration } from '../util/auth';
 
 function RootLayout() {
@@ -27,7 +27,7 @@ function RootLayout() {
 
   return (
     <>
-      <Header/>
+      <MainNavigation/>
       <main>
         {/* {navigation.state === 'loading' && <p>Loading...</p>} */}
         <Outlet />

@@ -2,7 +2,6 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
 import "./MainNavigation.css";
@@ -11,12 +10,16 @@ function MainNavigation({ onAuthenticate }) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand as={Link} to="/">RS Clues</Navbar.Brand>
+        <img src="/Challenge_scroll.png" />
+        <Navbar.Brand as={Link} to="/">
+          Clue Chasers
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link as={Link} to="/mylog">My Log</Nav.Link>
+            <Nav.Link as={Link} to="/mylog">
+              My Log
+            </Nav.Link>
             <NavDropdown title="Leaderboards" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/leaderboard/treasuretrailpoints">
                 Treasure Trail Points
@@ -47,12 +50,20 @@ function MainNavigation({ onAuthenticate }) {
               <NavDropdown.Item as={Link} to="/requirements">
                 Requirements
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/setups">Setups</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/setups">
+                Setups
+              </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="/gathering">Gathering</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/solving">Solving</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/gathering">
+                Gathering
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/solving">
+                Solving
+              </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={Link} to="/authenticate" className="auth">Login/Register</Nav.Link>
+            <Nav.Link as={Link} to="/auth?mode=login" className="auth">
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

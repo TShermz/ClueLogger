@@ -1,6 +1,8 @@
 .form {
   max-width: 40rem;
   margin: 2rem auto;
+  background-color: rgb(120, 121, 122) !important;
+  padding: 1rem;
 }
 
 .form label,
@@ -14,6 +16,7 @@
 .form textarea {
   font: inherit;
   padding: 0.25rem;
+  background-color: rgb(248, 250, 251);
 }
 
 .actions {

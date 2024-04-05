@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
-import Modal from "./UI/Modal";
 
 function AuthForm({ onDone }) {
   const data = useActionData();

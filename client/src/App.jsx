@@ -7,7 +7,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "./pages/Root.jsx";
 import HomePage from "./pages/Home.jsx";
 import ErrorPage from "./pages/Error.jsx";
-import Authentication from "./pages/authentication.jsx";
+import Authentication, {action as authAction} from "./pages/Authentication.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage />},
       { path: '/mylog', element: <ClueLog />},
-      {path: '/authenticate', element: <Authentication />}
+      {path: '/authenticate', element: <Authentication/>, action: authAction}
     ]
   }
 ])
