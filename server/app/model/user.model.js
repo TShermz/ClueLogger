@@ -14,6 +14,9 @@ function User(sequelize, Sequelize) {
     email: {
       type: Sequelize.STRING,
     },
+    admin: {
+      type: Sequelize.BOOLEAN,
+    }
   });
 
   return User;

@@ -1,12 +1,14 @@
 import db from '../config/db.config.js';
 
-const Transaction = db.transactions;
-const Item = db.items;
+// const Transaction = db.transactions;
+// const Item = db.items;
+const User = db.users;
 const sequelize = db.sequelize;
 
 //Creates relationship between Item and Transaction Tables w/ Sequelize
-Item.hasMany(Transaction, {onDelete: 'CASCADE'});
-Transaction.belongsTo(Item, {onDelete: 'CASCADE'});
+// Item.hasMany(Transaction, {onDelete: 'CASCADE'});
+// Transaction.belongsTo(Item, {onDelete: 'CASCADE'});
+// User.hasOne(HardLog, {onDelete: 'CASCADE'});
 
 // Post a Transaction
 function create (req, res) {	

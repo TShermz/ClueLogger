@@ -1,8 +1,14 @@
-import controller from '../controller/runeLogger.js';
+import authController from '../controller/authController.js';
 
-const {create, findAll, findById, update, deleteById } = controller;
+const {login, register, create, findAll, findById, update, deleteById } = authController;
 
 export default (app) => {
+
+    //Login
+    app.post('/login', login);
+
+    //Register
+    app.post('/signup', register);
  
     // Create a new Transaction
     app.post('/api/', create);

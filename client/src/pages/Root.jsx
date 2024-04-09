@@ -2,7 +2,7 @@ import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
 
 import { useEffect } from 'react';
 import MainNavigation from '../components/MainNavigation';
-// import { getTokenDuration } from '../util/auth';
+import { getTokenDuration } from '../util/token';
 
 function RootLayout() {
   const token = useLoaderData();

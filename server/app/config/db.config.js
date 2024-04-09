@@ -1,7 +1,6 @@
 import env from "./env.js";
 import { Sequelize } from 'sequelize';
-import Transaction from '../model/transaction.model.js';
-import Item from "../model/item.model.js";
+import User from '../model/user.model.js';
 
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
@@ -22,7 +21,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 //Models/tables
-db.items = Item(sequelize, Sequelize);
-db.transactions = Transaction(sequelize, Sequelize);
+db.users = User(sequelize, Sequelize);
 
 export default db;

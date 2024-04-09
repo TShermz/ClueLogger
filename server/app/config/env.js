@@ -1,5 +1,5 @@
 const env = {
-  database: 'runelogger',
+  database: 'cluelogger',
   username: 'root',
   password: '123456',
   host: 'localhost',

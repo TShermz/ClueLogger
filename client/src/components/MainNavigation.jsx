@@ -2,11 +2,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useRouteLoaderData, Form } from "react-router-dom";
 
 import "./MainNavigation.css";
 
 function MainNavigation({ onAuthenticate }) {
+  const token = useRouteLoaderData("root");
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -17,9 +19,11 @@ function MainNavigation({ onAuthenticate }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/mylog">
-              My Log
-            </Nav.Link>
+            {token && (
+              <Nav.Link as={Link} to="/mylog">
+                My Log
+              </Nav.Link>
+            )}
             <NavDropdown title="Leaderboards" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/leaderboard/treasuretrailpoints">
                 Treasure Trail Points
@@ -61,9 +65,16 @@ function MainNavigation({ onAuthenticate }) {
                 Solving
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link as={Link} to="/auth?mode=login" className="auth">
-              Login
-            </Nav.Link>
+            {!token && (
+              <Nav.Link as={Link} to="/auth?mode=login" className="auth">
+                Login
+              </Nav.Link>
+            )}
+            {token && (
+              <Form action="/logout" method="post">
+                <button>Logout</button>
+              </Form>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
