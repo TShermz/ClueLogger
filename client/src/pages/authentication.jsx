@@ -9,29 +9,26 @@ import { useMutation } from "@tanstack/react-query";
 export default function Authentication() {
   const navigate = useNavigate();
 
-  const { mutate, isPending, isError, error } = useMutation({
+  const { mutate, isPending, isError, error, data } = useMutation({
     mutationFn: auth,
     onSuccess: () => {
       // queryClient.invalidateQueries({queryKey: ['user']});
-      navigate('/');
+      navigate("/");
     },
-    // onError: () => {
-    //   console.log("there was an error");
-    // },
   });
 
   function handleSubmit(formData, mode) {
-    mutate({authData: formData, mode });
+    mutate({ authData: formData, mode });
   }
   return (
     <>
-      <AuthForm onSubmit={handleSubmit} />
       {isError && (
         <ErrorBlock
-          title="Failed to create event."
+          title="Failed to login"
           message={error.info?.message || "Failed to create event"}
         />
       )}
+      <AuthForm onSubmit={handleSubmit} />
     </>
   );
 }

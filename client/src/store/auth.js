@@ -6,7 +6,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initialAuthState,
     reducers: {
-        showAuth(state) {
+        toggleAuthenticated(state) {
             return true;
         },
         hideAuth(state){

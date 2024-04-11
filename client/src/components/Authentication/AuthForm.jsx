@@ -13,27 +13,29 @@ function AuthForm({ onSubmit }) {
   const isLogin = mode === "login";
   const isSubmitting = navigation.state === "submitting";
 
-  function handleSubmit(e){
+  let errorData;
+
+  async function handleSubmit(e){
     e.preventDefault();
 
     const formData = new FormData (e.target);
     const data = Object.fromEntries(formData);
 
-    onSubmit(data, mode);
+    errorData = await onSubmit(data, mode);
   }
 
   return (
     <>
       <form onSubmit={handleSubmit} className={classes.form}>
         <h1>{isLogin ? "Log in" : "Create a new user"}</h1>
-        {/* {data && data.errors && (
+        {errorData && errorData.errors && (
           <ul>
-            {Object.values(data.errors).map((err) => (
+            {Object.values(errorData.errors).map((err) => (
               <li key={err}>{err}</li>
             ))}
           </ul>
         )}
-        {data && data.message && <p>{data.message}</p>} */}
+        {errorData && errorData.message && <p>{data.message}</p>}
         {!isLogin && <p>
           <label htmlFor="email">Runescape Name (RSN)</label>
           <input id="username" type="text" name="username" required />

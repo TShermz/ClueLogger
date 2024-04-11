@@ -14,10 +14,17 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-session-sequelize": "^7.1.7",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.4",
-    "express": "^4.16.3",
+    "express": "^4.19.2",
+    "express-mysql-session": "^3.0.0",
+    "express-session": "^1.18.0",
+    "install": "^0.13.0",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^1.5.3",
-    "sequelize": "^4.37.6"
+    "sequelize": "^6.37.2",
+    "sqlite3": "^5.1.7"
   }
 }

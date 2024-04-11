@@ -16,7 +16,10 @@ function User(sequelize, Sequelize) {
     },
     admin: {
       type: Sequelize.BOOLEAN,
-    }
+    },
+    // token: {
+    //   type: Sequelize.STRING
+    // }
   });
 
   return User;

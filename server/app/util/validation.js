@@ -14,3 +14,7 @@ export function isValidImageUrl(value) {
 export function isValidEmail(value) {
   return value && value.includes('@');
 }
+
+export function isValidUsername(value, minlength = 1) {
+  return value && value.trim().length >= minlength;
+}
