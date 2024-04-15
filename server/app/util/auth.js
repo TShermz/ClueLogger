@@ -1,17 +1,7 @@
-import jwt from 'jsonwebtoken';
-const {sign, verify} = jwt;
 import bcrypt from 'bcryptjs';
 const {compare} = bcrypt;
 import { NotAuthError } from './errors.js';
 const KEY = 'supersecret';
-
-export function createJSONToken(email) {
-  return sign({ email }, KEY, { expiresIn: '1h' });
-}
-
-export function validateJSONToken(token) {
-  return verify(token, KEY);
-}
 
 export function isValidPassword(password, storedPassword) {
   return compare(password, storedPassword);

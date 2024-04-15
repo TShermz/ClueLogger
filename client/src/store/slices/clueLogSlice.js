@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { filterLog } from "../data/clueLogHelper";
+import { filterLog } from "../../data/clueLogHelper";
 
 const initialCounterState = { currentTier: "general", currentItem: "all" };
 const clueLogSlice = createSlice({
@@ -22,4 +22,4 @@ const clueLogSlice = createSlice({
 });
 
 export const clueLogActions = clueLogSlice.actions;
-export default clueLogSlice.reducer;
+export default clueLogSlice;

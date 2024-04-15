@@ -9,10 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 export default function Authentication() {
   const navigate = useNavigate();
 
-  const { mutate, isPending, isError, error, data } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: auth,
     onSuccess: () => {
-      // queryClient.invalidateQueries({queryKey: ['user']});
+      queryClient.invalidateQueries({queryKey: ['session']});
       navigate("/");
     },
   });
@@ -25,7 +25,7 @@ export default function Authentication() {
       {isError && (
         <ErrorBlock
           title="Failed to login"
-          message={error.info?.message || "Failed to create event"}
+          message={error.info?.message || "Failed to login."}
         />
       )}
       <AuthForm onSubmit={handleSubmit} />

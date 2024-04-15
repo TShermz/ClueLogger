@@ -1,16 +1,47 @@
+import "./MainNavigation.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, useRouteLoaderData, Form } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { getSession, logout } from "../util/auth";
+import {queryClient} from "../util/http";
 
-import "./MainNavigation.css";
+function MainNavigation() {
+  const navigate = useNavigate();
 
-function MainNavigation({ onAuthenticate }) {
-  const token = useRouteLoaderData("root");
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["session"],
+    queryFn: getSession,
+  });
 
-  return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+  const { mutate } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['session']});
+      navigate('/');
+    }
+  })
+
+  function handleLogout() {
+    mutate();
+  }
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (data) {
+    content = (
+      <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <img src="/Challenge_scroll.png" />
         <Navbar.Brand as={Link} to="/">
@@ -19,7 +50,7 @@ function MainNavigation({ onAuthenticate }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {token && (
+            {data.isAuthenticated && (
               <Nav.Link as={Link} to="/mylog">
                 My Log
               </Nav.Link>
@@ -65,20 +96,27 @@ function MainNavigation({ onAuthenticate }) {
                 Solving
               </NavDropdown.Item>
             </NavDropdown>
-            {!token && (
+            {!data.isAuthenticated && (
               <Nav.Link as={Link} to="/auth?mode=login" className="auth">
                 Login
               </Nav.Link>
             )}
-            {token && (
-              <Form action="/logout" method="post">
-                <button>Logout</button>
-              </Form>
+            {data.isAuthenticated && (
+              <Button onClick={handleLogout}>
+                Logout
+              </Button>
             )}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    )
+  }
+
+  return (
+    <>
+    {content}
+    </>
   );
 }
 

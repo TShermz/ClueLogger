@@ -1,22 +1,22 @@
 import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 import { useEffect } from 'react';
 import MainNavigation from '../components/MainNavigation';
 
 function RootLayout() {
-  const token = useLoaderData();
-  const submit = useSubmit();
+  // const token = useLoaderData();
 
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!token) {
+  //     return;
+  //   }
 
-    if(token === 'EXPIRED'){
-      submit(null, {action:'/logout', method: 'POST'})
-    }
+  //   if(token === 'EXPIRED'){
+  //     submit(null, {action:'/logout', method: 'POST'})
+  //   }
 
-  }, [token, submit]);
+  // }, [token, submit]);
 
   return (
     <>

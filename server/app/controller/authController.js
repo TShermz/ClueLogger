@@ -1,6 +1,5 @@
-import Cookies from "js-cookie";
 import db from "../config/db.config.js";
-import { createJSONToken, isValidPassword } from "../util/auth.js";
+import { isValidPassword } from "../util/auth.js";
 import {
   isValidEmail,
   isValidText,
@@ -15,13 +14,13 @@ const sequelize = db.sequelize;
 //Creates relationship between Item and Transaction Tables w/ Sequelize
 // User.hasOne(HardLog, {onDelete: 'CASCADE'});
 
-//authentication check
-function isAuthenticated(req, res, next) {
-  if (!req.session.user) {
-    return res.status(401).send("Authentication required");
-  }
-
-  // if(req.cookie.token === )
+//Get session data
+function getSession(req, res) {
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else (
+    res.json({username: null, email: null, isAuthenticated: false})
+  )
 }
 
 async function login(req, res) {
@@ -51,40 +50,30 @@ async function login(req, res) {
     });
   }
 
-  //Creates JWT token
-  // const token = createJSONToken(email);
-  // const authenticatedUser = await user.update({ token: token });
+  const sessionUser = {
+    username: user.username,
+    email: req.body.email,
+    isAuthenticated: true
+  }
 
-  //regenerate session
-  req.session.regenerate((err) => {
-    if (err) next(err);
+  req.session.user = sessionUser;
 
-    req.session.user = req.body.user;
-  });
-
-  //Creating JWT Cookie
-  // res.cookie("clue_chaser_member_token", authenticatedUser.token, {
-  //   signed: true,
-  //   maxAge: 9000000,
-  //   secure: true,
-  // });
-
-  res.status(201).json({ message: "Logged in successfully.", user });
+  res
+    .status(201)
+    .json({ message: "Logged in successfully.", sessionUser });
 }
 
 async function register(req, res) {
-  //Username, Email, Password
   let errors = {};
   let data = req.body;
-  console.log(req.session);
 
   if (!isValidEmail(data.email)) {
-    errors.email = "Invalid email.";
+    message = "Invalid email.";
   } else {
     try {
       const existingEmailUser = await get("email", data.email);
       if (existingEmailUser) {
-        errors.email = "Email exists already.";
+        message = "Email already exists.";
       }
     } catch (error) {
       console.error(error);
@@ -93,11 +82,13 @@ async function register(req, res) {
 
   if (!isValidUsername(data.username, 1)) {
     errors.username = "Invalid Username.";
+    message = "Invalid username.";
   } else {
     try {
       const existingUsernameUser = await get("username", data.username);
+      console.log('this is the existing: '+ existingUsernameUser);
       if (existingUsernameUser) {
-        errors.username = "Username exists already.";
+        message = "Username already exists.";
       }
     } catch (error) {
       console.error(error);
@@ -105,7 +96,7 @@ async function register(req, res) {
   }
 
   if (!isValidText(data.password, 6)) {
-    errors.password = "Invalid password. Must be at least 6 characters long.";
+    message = "Invalid password. Must be at least 6 characters long.";
   }
 
   if (Object.keys(errors).length > 0) {
@@ -117,23 +108,14 @@ async function register(req, res) {
 
   try {
     const createdUser = await add(data);
-    // const token = createJSONToken(createdUser.email);
+    const sessionUser = {
+      username: createdUser.username,
+      email: createdUser.email,
+      isAuthenticated: true
+    }
+    req.session.user = sessionUser;
 
-    req.session.regenerate((err) => {
-      if (err) next(err);
-
-      req.session.user = createdUser;
-      req.session.save((err) => {
-        if (err) next(err);
-      });
-    });
-
-    // res.cookie("clue_chaser_member_token", token, {
-    //   signed: true,
-    //   maxAge: 9000000,
-    //   secure: true,
-    // });
-    res.status(201).json({ message: "User created.", user: createdUser });
+    res.status(201).json({ message: "User created.", sessionUser });
   } catch (error) {
     console.log(error);
     next(error);
@@ -141,16 +123,27 @@ async function register(req, res) {
 }
 
 //Logout
-async function logout(req, res) {
-  req.session.user = null;
+async function logout(req, res, next) {
+  console.log('we hit');
+  req.session.destroy();
+  
 
-  req.sesssion.save((err) => {
-    if (err) next(err);
+  // req.session.save((err) => {
+  //   if (err) next(err);
+  //   req.session = null;
 
-    req.session.regenerate((err) => {
-      if (err) next(err);
-    });
-  });
+  //   req.session.regenerate((err) => {
+  //     if (err) next(err);
+  //   });
+  // });
+
+  const sessionUser = {
+    username: null,
+    email: null,
+    isAuthenticated: false
+  }
+
+  res.status(201).json({ message: "User logged out.", sessionUser });
 }
 
 //ForgotPassword
@@ -166,7 +159,7 @@ async function add(data) {
 }
 
 async function get(field, value) {
-  const existingUser = User.findOne({ where: {[field]: value } });
+  const existingUser = User.findOne({ where: { [field]: value } });
 
   if (!existingUser) {
     throw new NotFoundError("Could not find user for email " + email);
@@ -175,28 +168,4 @@ async function get(field, value) {
   return existingUser;
 }
 
-var ExpressCookies = Cookies.withConverter({
-  write: function (value) {
-    // Prepend j: prefix if it is JSON object
-    try {
-      console.log("attempting to write");
-      var tmp = JSON.parse(value);
-      if (typeof tmp !== "object") {
-        throw new Error();
-      }
-      value = "j:" + JSON.stringify(tmp);
-    } catch (e) {
-      console.log("this was an error");
-    }
-
-    return Cookies.converter.write(value);
-  },
-  read: function (value) {
-    value = Cookies.converter.read(value);
-
-    // Check if the value contains j: prefix otherwise return as is
-    return value.slice(0, 2) === "j:" ? value.slice(2) : value;
-  },
-});
-
-export default { isAuthenticated, login, register };
+export default { getSession, login, register, logout };

@@ -12,11 +12,13 @@ var SequelizeStore = store(session.Store);
 const corsOptions = {
   origin: "http://localhost:4200",
   optionsSuccessStatus: 200,
-  credentials: true,
+  credentials: true
 };
 
 var app = express();
 app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+
 app.use(cookieParser("secretkey"));
 app.use(cors(corsOptions));
 
@@ -32,11 +34,13 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24,
     },
     secure: false,
+    sameSite: true
   })
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"

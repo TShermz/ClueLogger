@@ -1,7 +1,7 @@
 import "./ClueLogButtons.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 
-import { clueLogActions } from "../../store/clueLog";
+import { clueLogActions } from "../../store/slices/clueLogSlice"
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ClueLogButtons({ className, buttons, filterType }) {

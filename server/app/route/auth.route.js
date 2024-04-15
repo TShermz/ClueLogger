@@ -1,17 +1,14 @@
 import authController from '../controller/authController.js';
 
-const { isAuthenticated,login, register } = authController;
+const { getSession, login, register, logout } = authController;
 
 export default (app) => {
 
     //Homepage
-    app.get('/', (req, res) => {
-        console.log('this is session: ' + req.session);
-        console.log('this is cookies: ' + req.cookies);
-    });
+    app.get('/', getSession);
 
     //Access My Log
-    app.get('/mylog', isAuthenticated)
+    app.get('/mylog')
 
     //Login
     app.post('/login', login);
@@ -19,4 +16,5 @@ export default (app) => {
     //Register
     app.post('/signup', register);
 
+    app.get('/logout', logout);
 }

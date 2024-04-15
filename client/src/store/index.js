@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import clueLogReducer from "./clueLog.js";
+import clueLogSlice from "./slices/clueLogSlice.js";
+import authSlice from "./slices/authSlice.js";
 
 const store = configureStore({
-  reducer: { clueLog: clueLogReducer },
+  reducer: { clueLog: clueLogSlice.reducer, auth: authSlice.reducer },
 });
 
 export default store;
