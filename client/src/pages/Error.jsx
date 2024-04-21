@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom';
 
-// import PageContent from '../components/PageContent';
+import PageContent from '../components/UI/PageContent';
 import MainNavigation from '../components/MainNavigation';
 
 function ErrorPage() {
@@ -21,9 +21,9 @@ function ErrorPage() {
   return (
     <>
       <MainNavigation />
-      {/* <PageContent title={title}>
+      <PageContent title={title}>
         <p>{message}</p>
-      </PageContent> */}
+      </PageContent>
     </>
   );
 }

@@ -1,15 +1,26 @@
 import './ClueItem.css';
-import generalJSON from "../../data/general.json";
+import { useSelector } from 'react-redux';
 
-export default function ClueItem({ item }) {
-  //would retreive data from SQL
-  const userData = generalJSON;
-  const name = item.name.replaceAll(" ", "_");
+export default function ClueItem({ name, value }) {
+  if(name === 'createdAt'){
+    return (
+      <p>Created At: {value}</p>
+    );
+  };
+  if(name === 'updatedAt'){
+    return (
+      <p>Updated At: {value}</p>
+    );
+  };
+
+  const selectedLog = useSelector(state => state.clueLog.currentTier);
+  const displayName = name.replaceAll("_", " ");
+  const imageLink = `/hidden/${selectedLog}/${name}.png`
 
   return (
     <div className="clue-item">
-      <div className="item-count">{userData[name]}</div>
-      <img src={item.image} alt={item.name} />
+      <div className="item-count">{value}</div>
+      <img src={imageLink} alt={displayName} />
     </div>
   );
 }

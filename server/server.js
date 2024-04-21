@@ -3,9 +3,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import db from "./app/config/db.config.js";
 import authRoutes from "./app/route/auth.route.js";
+import logRoutes from "./app/route/log.route.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-
 import store from 'connect-session-sequelize';
 var SequelizeStore = store(session.Store);
 
@@ -39,20 +39,22 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
   next();
 });
 
 // force: true will drop the table if it already exists
-await db.sequelize.sync({ alter: true });
+await db.sequelize.sync();
 
 //Instantiate routes
 authRoutes(app);
+logRoutes(app);
 
 // Create a Server
 var server = app.listen(8080, function () {

@@ -1,491 +1,397 @@
-function HardLog(sequelize, Sequelize) {
-  const HardLog = sequelize.define("hardLog", {
-    hardLogId: {
+function MediumLog(sequelize, Sequelize) {
+  const MediumLog = sequelize.define("mediumLog", {
+    mediumLogId: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    Robin_Hood_hat: {
+    Ranger_boots: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    "Rune_platebody_(t)": {
+    "Wizard_boots_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platelegs_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    "Rune_plateskirt_(t)": {
+    "Adamant_platebody_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_kiteshield_(t)": {
+    "Adamant_platelegs_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_full_helm_(t)": {
+    "Adamant_kiteshield_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platebody_(g)": {
+    "Adamant_full_helm_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platelegs_(g)": {
+    "Adamant_platebody_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(g)": {
+    "Adamant_platelegs_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_kiteshield_(g)": {
+    "Adamant_kiteshield_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_full_helm_(g)": {
+    "Adamant_full_helm_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platebody_(Zamorak)": {
+    Red_headband: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platelegs_(Zamorak)": {
+    Black_headband: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_plateskirt_(Zamorak)": {
+    Brown_headband: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_kiteshield_(Zamorak)": {
+    "Adamant_plateskirt_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_full_helm_(Zamorak)": {
+    "Adamant_plateskirt_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platebody_(Guthix)": {
+    "Adamant_shield_(h1)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platelegs_(Guthix)": {
+    "Adamant_shield_(h2)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_plateskirt_(Guthix)": {
+    "Adamant_shield_(h3)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_kiteshield_(Guthix)": {
+    "Adamant_shield_(h4)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_full_helm_(Guthix)": {
+    "Adamant_shield_(h5)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platebody_(Saradomin)": {
+    Red_boater: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_platelegs_(Saradomin)": {
+    Green_boater: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_plateskirt_(Saradomin)": {
+    Orange_boater: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_kiteshield_(Saradomin)": {
+    Black_boater: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_full_helm_(Saradomin)": {
+    Blue_boater: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Tan_cavalier: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Dark_cavalier: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Black_cavalier: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Pirate_hat: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    "Rune_shield_(h1)": {
+    "Green_dragonhide_body_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_shield_(h2)": {
+    "Green_dragonhide_body_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_shield_(h3)": {
+    "Green_dragonhide_chaps_(g)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_shield_(h4)": {
+    "Green_dragonhide_chaps_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_shield_(h5)": {
+    "Adamant_helm_(h1)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blue_dragonhide_body_(t)": {
+    "Adamant_helm_(h2)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blue_dragonhide_chaps_(t)": {
+    "Adamant_helm_(h3)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blue_dragonhide_body_(g)": {
+    "Adamant_helm_(h4)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blue_dragonhide_chaps_(g)": {
+    "Adamant_helm_(h5)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Enchanted_hat: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Enchanted_top: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Enchanted_robe: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    "Rune_helm_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    "Rune_helm_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    "Rune_helm_(h3)": {
+    Saradomin_mitre: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    "Rune_helm_(h4)": {
+    Saradomin_cloak: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    "Rune_helm_(h5)": {
+    Guthix_mitre: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    "Amulet_of_glory_(t4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
 
-    "Blessed_dragonhide_vambraces_(Saradomin)": {
+    Guthix_cloak: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_body_(Saradomin)": {
+    Zamorak_mitre: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_chaps_(Saradomin)": {
+    Zamorak_cloak: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_coif_(Saradomin)": {
+    Adamant_cane: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_vambraces_(Guthix)": {
+    Pith_helmet: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_body_(Guthix)": {
+    Purple_elegant_shirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_chaps_(Guthix)": {
+    Purple_elegant_blouse: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_coif_(Guthix)": {
+    Purple_elegant_legs: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_vambraces_(Zamorak)": {
+    Purple_elegant_skirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_body_(Zamorak)": {
+    Black_elegant_shirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_chaps_(Zamorak)": {
+    White_elegant_blouse: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Blessed_dragonhide_coif_(Zamorak)": {
+    Black_elegant_legs: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Saradomin_stole: {
+    White_elegant_skirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Saradomin_crozier: {
+    "Adamant_platebody_(h1)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Guthix_stole: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Guthix_crozier: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Zamorak_stole: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Zamorak_crozier: {
+    "Adamant_platelegs_(h1)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Rune_cane: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Top_hat: {
+    "Adamant_plateskirt_(h1)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    "Rune_platebody_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
 
-    "Rune_platelegs_(h1)": {
+    "Adamant_platebody_(h2)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(h1)": {
+    "Adamant_platelegs_(h2)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platebody_(h2)": {
+    "Adamant_plateskirt_(h2)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platelegs_(h2)": {
+    "Adamant_platebody_(h3)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(h2)": {
+    "Adamant_platelegs_(h3)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platebody_(h3)": {
+    "Adamant_plateskirt_(h3)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platelegs_(h3)": {
+    "Adamant_platebody_(h4)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(h3)": {
+    "Adamant_platelegs_(h4)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platebody_(h4)": {
+    "Adamant_plateskirt_(h4)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platelegs_(h4)": {
+    "Adamant_platebody_(h5)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(h4)": {
+    "Adamant_platelegs_(h5)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platebody_(h5)": {
+    "Adamant_plateskirt_(h5)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platelegs_(h5)": {
+    Armadyl_robe_top: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_plateskirt_(h5)": {
+    Armadyl_robe_legs: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Armadyl_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Bandos_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Ancient_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
-    },
-    Armadyl_mitre: {
+    Bandos_robe_top: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    Bandos_mitre: {
+
+    Bandos_robe_legs: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    Ancient_mitre: {
+
+    Ancient_robe_top: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    Fox_mask: {
+
+    Ancient_robe_legs: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-    White_unicorn_mask: {
+    Sheep_mask: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Black_unicorn_mask: {
+    Penguin_mask: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Green_dragon_mask: {
+    Bat_mask: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Blue_dragon_mask: {
+    Cat_mask: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    Red_dragon_mask: {
+    Wolf_mask: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Amulet_of_fury_(t)": {
+    Blue_checkered_shirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platebody_(Gilded)": {
+    Green_checkered_shirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_platelegs_(Gilded)": {
+    Purple_checkered_shirt: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
-
-    "Rune_plateskirt_(Gilded)": {
+    Briefcase: {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_full_helm_(Gilded)": {
+    "Off-hand_briefcase": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
 
-    "Rune_kiteshield_(Gilded)": {
+    "Strength_amulet_(t)": {
       type: Sequelize.TEXT,
       defaultValue: 0,
     },
   });
 
-  return HardLog;
+  return MediumLog;
 }
 
-export default HardLog;
+export default MediumLog;

@@ -1,5 +1,6 @@
 import './ClueLogFilter.css';
 import Form from "react-bootstrap/Form";
+import { useDispatch } from 'react-redux';
 
 export default function ClueLogFilter() {
   return (

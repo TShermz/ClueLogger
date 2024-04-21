@@ -1,8 +1,14 @@
 import "./ClueLogButtons.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 
+import { useQuery, useMutation } from "@tanstack/react-query";
+import {queryClient} from '../../util/http';
+import {getLog} from '../../util/log';
+
 import { clueLogActions } from "../../store/slices/clueLogSlice"
 import { useDispatch, useSelector } from "react-redux";
+
+
 
 export default function ClueLogButtons({ className, buttons, filterType }) {
   const dispatch = useDispatch();
@@ -11,10 +17,22 @@ export default function ClueLogButtons({ className, buttons, filterType }) {
       ? useSelector((state) => state.clueLog.currentTier)
       : useSelector((state) => state.clueLog.currentItem);
 
+  // const {data, isLoading, isError, error} = useQuery({
+  //   queryKey: ['mylog', filterValue],
+  //   queryFn: ({signal}) => getMyLog({signal, filterValue})
+  // })
+
+  // const {mutate, isPending, isError, error} = useMutation({
+  //   mutationFn: ,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({queryKey: ['mylog', filterValue]});
+  //   }
+  // })
+
   const classes = `${className} btn-group`;
 
   function handleClick(filterValue, filterType) {
-    dispatch(clueLogActions.filter(filterValue, filterType));
+    dispatch(clueLogActions.filter({filterValue, filterType}));
   }
 
   return (
@@ -24,7 +42,7 @@ export default function ClueLogButtons({ className, buttons, filterType }) {
           <Button
             key={buttonLabel}
             variant="secondary"
-            onClick={() => handleClick(`${buttonLabel}`, { filterType })}
+            onClick={() => handleClick(`${buttonLabel}`, filterType)}
             className={
               currentFilterValue === `${buttonLabel}`
                 ? "btn-group selected"

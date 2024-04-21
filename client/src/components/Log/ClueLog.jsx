@@ -1,61 +1,62 @@
 import "./ClueLog.css";
-
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query"
 import { useSelector } from "react-redux";
+import { getLog } from "../../util/log.js";
 
 import ClueLogButtons from "./ClueLogButtons.jsx";
 import ClueItem from "./ClueItem.jsx";
-import ClueLogFilter from "./ClueLogFilter.jsx";
+import ErrorBlock from "../UI/ErrorBlock.jsx";
 
-import { generalTemplate } from "../../templates/logs/general.js";
-import { easyTemplate } from "../../templates/logs/easy.js";
-import { mediumTemplate } from "../../templates/logs/medium.js";
-import { hardTemplate } from "../../templates/logs/hard.js";
-import { eliteTemplate } from "../../templates/logs/elite.js";
-import { masterTemplate } from "../../templates/logs/master.js";
+const tierFilterButtons = ["general", "easy", "medium", "hard", "elite", "master"];
 
 export default function ClueLog() {
-  // const currentLogText = useSelector((state) => state.clueLog.currentLog);
-  const templateArray = [
-    { name: "general", template: generalTemplate },
-  { name: "easy", template: easyTemplate },
-    { name: "medium", template: mediumTemplate },
-    { name: "hard", template: hardTemplate },
-    { name: "elite", template: eliteTemplate },
-    { name: "master", template: masterTemplate },
-  ];
+  const selectedLog = useSelector(state => state.clueLog.currentTier);
+  const hasBroadcasts = selectedLog === "hard" | selectedLog === "elite" | selectedLog === "master";
+  
+  const {data: commons, isLoading: commonsIsLoading, isError: commonsIsError, error: commonsError} = useQuery({
+    queryKey: ['mylog', selectedLog],
+    queryFn: ({signal})=> getLog({signal, selectedLogName: selectedLog})
+  })
 
-  let currentTemplate = templateArray.filter(
-    (template) => template.name === 'general'
-  );
-  const template = currentTemplate[0].template;  
-
-  const itemFilterButtons = ["all", "broadcasts", "commons"];
-  const tierFilterButtons = ["general", "easy", "medium", "hard", "elite", "master"];
-
-  function handleChange(newLog) {
-    setCurrentLog(newLog);
+  let content;
+  if(commonsIsLoading){
+    content = (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
-  return (
-    <>
-      <div className="clue-log-container">
-        <ClueLogButtons
-          className="item-filter"
-          buttons={itemFilterButtons}
-          filterType="item"
+  if(commonsIsError) {
+    content = (
+      <div>
+        <ErrorBlock
+          title="Failed to load message."
+          message={error.info?.message || "Error when fetching data."}
         />
+      </div>
+    );
+  };
+
+  if(commons){
+    content = (
+      <div className="clue-log-container">
         <ClueLogButtons
           className="tier-filter"
           buttons={tierFilterButtons}
           filterType="tier"
         />
+        {hasBroadcasts ? <h3>Broadcasts</h3> : null}
+        <h3>Commons</h3>
         <div className="clue-log">
-          {template.map((item) => {
-            return <ClueItem key={item.name} item={item} />;
-          })}
+          {Object.keys(commons).map((key) => (
+            <ClueItem key={key} name={key} value={commons[key]} />
+          ))}
         </div>
       </div>
-    </>
-  );
+    )
+  }
+
+
+  return content;
 }

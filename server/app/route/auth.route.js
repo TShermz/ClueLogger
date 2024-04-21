@@ -7,9 +7,6 @@ export default (app) => {
     //Homepage
     app.get('/', getSession);
 
-    //Access My Log
-    app.get('/mylog')
-
     //Login
     app.post('/login', login);
 

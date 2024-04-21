@@ -14,16 +14,22 @@ const templateArray = [
   { name: "master", template: masterTemplate },
 ];
 
-export function filterLog(state) {
+export function filterLog(state, action) {
+
   //selects current tier template
   const currentTier = templateArray.filter(
     (template) => template.name === state.currentTier
   );
 
   //filters out item type
-  const filteredArray = templateArray.template.filter(
-    (item) => item.type === state.currentItem
-  );
 
-  return filteredArray[0].template;
+  if(state.currentItem === 'all'){
+    return currentTier;
+  } else {
+    const filteredArray = currentTier[0].template.filter(
+      (item) => item.type === state.currentItem
+    );
+
+    return filteredArray[0].template;
+  }
 }

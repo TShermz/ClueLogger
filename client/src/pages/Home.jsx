@@ -55,7 +55,7 @@ function HomePage() {
 
   return (
     <>
-      <PageContent title="Welcome to Clue Chasers!">{content}</PageContent>
+      <PageContent>{content}</PageContent>
     </>
   );
 }

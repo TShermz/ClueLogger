@@ -8,19 +8,20 @@ import {
 import bcrypt from "bcryptjs";
 const { hash } = bcrypt;
 
-const User = db.users;
-const sequelize = db.sequelize;
-
-//Creates relationship between Item and Transaction Tables w/ Sequelize
-// User.hasOne(HardLog, {onDelete: 'CASCADE'});
+// const sequelize = db.sequelize;
+const User = db.user;
+const GeneralLog = db.generalLog;
+const EasyLog = db.easyLog;
+const MediumLog = db.mediumLog;
+const HardLog = db.hardLog;
+const EliteLog = db.eliteLog;
+const MasterLog = db.masterLog;
 
 //Get session data
 function getSession(req, res) {
   if (req.session.user) {
     res.json(req.session.user);
-  } else (
-    res.json({username: null, email: null, isAuthenticated: false})
-  )
+  } else res.json({ username: null, email: null, isAuthenticated: false });
 }
 
 async function login(req, res) {
@@ -51,16 +52,14 @@ async function login(req, res) {
   }
 
   const sessionUser = {
+    id: user.id,
     username: user.username,
     email: req.body.email,
-    isAuthenticated: true
-  }
+    isAuthenticated: true,
+  };
 
   req.session.user = sessionUser;
-
-  res
-    .status(201)
-    .json({ message: "Logged in successfully.", sessionUser });
+  res.status(201).json({ message: "Logged in successfully.", sessionUser });
 }
 
 async function register(req, res) {
@@ -86,7 +85,6 @@ async function register(req, res) {
   } else {
     try {
       const existingUsernameUser = await get("username", data.username);
-      console.log('this is the existing: '+ existingUsernameUser);
       if (existingUsernameUser) {
         message = "Username already exists.";
       }
@@ -109,11 +107,13 @@ async function register(req, res) {
   try {
     const createdUser = await add(data);
     const sessionUser = {
+      id: createdUser.id,
       username: createdUser.username,
       email: createdUser.email,
-      isAuthenticated: true
-    }
+      isAuthenticated: true,
+    };
     req.session.user = sessionUser;
+    await createInitialTables(createdUser);
 
     res.status(201).json({ message: "User created.", sessionUser });
   } catch (error) {
@@ -124,9 +124,8 @@ async function register(req, res) {
 
 //Logout
 async function logout(req, res, next) {
-  console.log('we hit');
+  console.log("we hit");
   req.session.destroy();
-  
 
   // req.session.save((err) => {
   //   if (err) next(err);
@@ -140,16 +139,15 @@ async function logout(req, res, next) {
   const sessionUser = {
     username: null,
     email: null,
-    isAuthenticated: false
-  }
+    isAuthenticated: false,
+  };
 
   res.status(201).json({ message: "User logged out.", sessionUser });
 }
 
-//ForgotPassword
+//Helper Functions
 
 async function add(data) {
-  // const userId = generateId();
   data.password = await hash(data.password, 12);
 
   //sequelize.create
@@ -166,6 +164,22 @@ async function get(field, value) {
   }
 
   return existingUser;
+}
+
+async function createInitialTables(createdUser) {
+  const generalLog = await GeneralLog.create();
+  generalLog.setUser(createdUser);
+  const easyLog = await EasyLog.create();
+  easyLog.setUser(createdUser);
+  const mediumLog = await MediumLog.create();
+  mediumLog.setUser(createdUser);
+  const hardLog = await HardLog.create();
+  hardLog.setUser(createdUser);
+  const eliteLog = await EliteLog.create(); 
+  eliteLog.setUser(createdUser);
+  const masterLog = await MasterLog.create();
+  masterLog.setUser(createdUser);
+  return;
 }
 
 export default { getSession, login, register, logout };

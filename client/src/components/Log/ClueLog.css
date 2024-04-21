@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap");
+
 
 .form-check {
   color: black;
@@ -8,13 +10,12 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  width: 62%;
   height: auto;
-  margin: 1rem auto 2rem auto;
+  margin: 2rem;
   background-color: rgba(198, 173, 130, 0.985);
   border-radius: 0.5rem;
   border: black solid 3px;
-  padding: 1rem 1rem 0 1rem;
+  padding: 1rem 1rem 1rem 1rem;
 }
 
 .clue-log {

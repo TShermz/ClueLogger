@@ -1,6 +1,6 @@
 function User(sequelize, Sequelize) {
   const User = sequelize.define("user", {
-    userId: {
+    id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -16,10 +16,7 @@ function User(sequelize, Sequelize) {
     },
     admin: {
       type: Sequelize.BOOLEAN,
-    },
-    // token: {
-    //   type: Sequelize.STRING
-    // }
+    }
   });
 
   return User;
