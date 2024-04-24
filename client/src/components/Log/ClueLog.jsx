@@ -1,25 +1,54 @@
 import "./ClueLog.css";
-import { useQuery } from "@tanstack/react-query"
-import { useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector, useDispatch } from "react-redux";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { getLog } from "../../util/log.js";
+import { clueLogActions } from "../../store/slices/clueLogSlice.js";
 
-import ClueLogButtons from "./ClueLogButtons.jsx";
 import ClueItem from "./ClueItem.jsx";
+import ClueLogButtons from "./ClueLogButtons.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
-const tierFilterButtons = ["general", "easy", "medium", "hard", "elite", "master"];
+const tierFilterButtons = [
+  "general",
+  "easy",
+  "medium",
+  "hard",
+  "elite",
+  "master",
+];
+
+const displayFilterButtons = [
+  "General",
+  "Easy",
+  "Medium",
+  "Hard",
+  "Elite",
+  "Master",
+];
 
 export default function ClueLog() {
-  const selectedLog = useSelector(state => state.clueLog.currentTier);
-  const hasBroadcasts = selectedLog === "hard" | selectedLog === "elite" | selectedLog === "master";
-  
-  const {data: commons, isLoading: commonsIsLoading, isError: commonsIsError, error: commonsError} = useQuery({
-    queryKey: ['mylog', selectedLog],
-    queryFn: ({signal})=> getLog({signal, selectedLogName: selectedLog})
-  })
+  const dispatch = useDispatch();
+  const selectedLog = useSelector((state) => state.clueLog.currentTier);
 
-  let content;
-  if(commonsIsLoading){
+  const hasBroadcasts =
+    (selectedLog === "hard") |
+    (selectedLog === "elite") |
+    (selectedLog === "master");
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["mylog", selectedLog],
+    queryFn: ({ signal }) => getLog({ signal, selectedLogName: selectedLog }),
+  });
+
+  function handleEditing() {
+    dispatch(clueLogActions.toggleEdit());
+  }
+
+  let content, commons, broadcasts;
+
+  if (isLoading) {
     content = (
       <div>
         <p>Loading...</p>
@@ -27,7 +56,7 @@ export default function ClueLog() {
     );
   }
 
-  if(commonsIsError) {
+  if (isError) {
     content = (
       <div>
         <ErrorBlock
@@ -36,9 +65,12 @@ export default function ClueLog() {
         />
       </div>
     );
-  };
+  }
 
-  if(commons){
+  if (data) {
+    commons = data;
+    // broadcasts = data.broadcasts;
+    const editLink = `/commons/${selectedLog}/edit`;
     content = (
       <div className="clue-log-container">
         <ClueLogButtons
@@ -46,17 +78,36 @@ export default function ClueLog() {
           buttons={tierFilterButtons}
           filterType="tier"
         />
-        {hasBroadcasts ? <h3>Broadcasts</h3> : null}
-        <h3>Commons</h3>
+
+        {/* Broadcasts Section */}
+        {hasBroadcasts ? (
+          <div className="logButtons">
+            <h3>Broadcasts</h3>
+            <Link to={editLink}>
+              <Button id="editCommonButton" onClick={handleEditing}>
+                Edit Broadcasts
+              </Button>
+            </Link>
+          </div>
+        ) : null}
+
+        {/* Commons Section */}
+        <div className="logButtons">
+          <h3>Commons</h3>
+          <Link to={editLink}>
+            <Button id="editCommonButton" onClick={handleEditing}>
+              Edit Commons
+            </Button>
+          </Link>
+        </div>
         <div className="clue-log">
           {Object.keys(commons).map((key) => (
             <ClueItem key={key} name={key} value={commons[key]} />
           ))}
         </div>
       </div>
-    )
+    );
   }
-
 
   return content;
 }

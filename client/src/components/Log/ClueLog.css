@@ -28,3 +28,21 @@
   padding: 1rem 0 1rem 0;
 }
 
+.logButtons{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.logButtons button {
+  background-color: rgb(175, 175, 175);
+  color: black;
+  border: black 2px solid;
+}
+
+.logButtons button:hover {
+  background-color: grey;
+  border: black 2px solid;
+}
+

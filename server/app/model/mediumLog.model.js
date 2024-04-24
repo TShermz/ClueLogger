@@ -6,388 +6,306 @@ function MediumLog(sequelize, Sequelize) {
       autoIncrement: true,
     },
     Ranger_boots: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Wizard_boots_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_platebody_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_platelegs_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_kiteshield_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_full_helm_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_platebody_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_kiteshield_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_full_helm_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Red_headband: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Black_headband: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Brown_headband: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_plateskirt_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_plateskirt_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_shield_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_shield_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_shield_(h3)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     "Adamant_shield_(h4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_shield_(h5)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Red_boater: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Green_boater: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Orange_boater: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Black_boater: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Blue_boater: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Green_dragonhide_body_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Green_dragonhide_body_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Green_dragonhide_chaps_(g)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Green_dragonhide_chaps_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_helm_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_helm_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_helm_(h3)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_helm_(h4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_helm_(h5)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Saradomin_mitre: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Saradomin_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Guthix_mitre: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Guthix_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Zamorak_mitre: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Zamorak_cloak: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Adamant_cane: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Pith_helmet: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Purple_elegant_shirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Purple_elegant_blouse: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Purple_elegant_legs: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Purple_elegant_skirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Black_elegant_shirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     White_elegant_blouse: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Black_elegant_legs: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     White_elegant_skirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platebody_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_plateskirt_(h1)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platebody_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_plateskirt_(h2)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platebody_(h3)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(h3)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_plateskirt_(h3)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platebody_(h4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(h4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_plateskirt_(h4)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platebody_(h5)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_platelegs_(h5)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Adamant_plateskirt_(h5)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Armadyl_robe_top: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Armadyl_robe_legs: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Bandos_robe_top: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Bandos_robe_legs: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Ancient_robe_top: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Ancient_robe_legs: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Sheep_mask: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Penguin_mask: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Bat_mask: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Cat_mask: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Wolf_mask: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Blue_checkered_shirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Green_checkered_shirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     Purple_checkered_shirt: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
     Briefcase: {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Off-hand_briefcase": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
 
     "Strength_amulet_(t)": {
-      type: Sequelize.TEXT,
-      defaultValue: 0,
+      type: Sequelize.INTEGER,
     },
   });
 

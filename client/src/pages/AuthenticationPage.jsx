@@ -6,7 +6,7 @@ import { auth } from "../util/auth";
 import { queryClient } from "../util/http";
 import { useMutation } from "@tanstack/react-query";
 
-export default function Authentication() {
+export default function AuthenticationPage() {
   const navigate = useNavigate();
 
   const { mutate, isPending, isError, error } = useMutation({

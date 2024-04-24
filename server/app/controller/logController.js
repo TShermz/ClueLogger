@@ -10,9 +10,26 @@ const MasterLog = db.masterLog;
 
 async function getLog(req, res) {
   try {
-    let log = await queryLog(req.params.logName, req.session.user.id);
-    console.log("await log: " + log);
+    let log = await queryLog(req.params.logName, req.session.user.id, req.method);
+    console.log("await log: " + req.method);
     res.json(log);
+  } catch (error) {
+    console.log(err);
+  }
+}
+
+async function updateCommons(req, res) {
+  let updatedCommons = req.body;
+  console.log(updatedCommons);
+  try {
+    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    // await GeneralLog.update(updatedLog, {where: {generalLogId: req.session.user.id}});
+    let log = await queryLog(req.params.logName, req.session.user.id, req.method);
+    console.log('THIS IS LOG: ' + req.params.logName);
+    await log.update(updatedCommons);
+    await log.save();
+
+    res.json({message: 'Log successfully updated.'});
   } catch (error) {
     console.log(err);
   }
@@ -20,38 +37,42 @@ async function getLog(req, res) {
 
 //Helper functions
 
-async function queryLog(logName, id) {
+async function queryLog(logName, id, method) {
   let log;
+  console.log("+!+!+!+@+@+!!+: " + method);
+  const filters = method === 'GET' ? [`${logName}LogId`, "userId"] : '';
+
   try {
+    console.log("------------" + filters);
     switch (logName) {
       case "general":
         log = await GeneralLog.findByPk(id, {
-          attributes: { exclude: ["generalLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       case "easy":
         log = await EasyLog.findByPk(id, {
-          attributes: { exclude: ["easyLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       case "medium":
         log = await MediumLog.findByPk(id, {
-          attributes: { exclude: ["mediumLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       case "hard":
         log = await HardLog.findByPk(id, {
-          attributes: { exclude: ["hardLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       case "elite":
         log = await EliteLog.findByPk(id, {
-          attributes: { exclude: ["eliteLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       case "master":
         log = await MasterLog.findByPk(id, {
-          attributes: { exclude: ["masterLogId", "userId"] },
+          attributes: { exclude: filters },
         });
         break;
       default:
@@ -64,7 +85,7 @@ async function queryLog(logName, id) {
   return log;
 }
 
-export default { getLog };
+export default { getLog, updateCommons };
 
 // Update a Transaction
 function update(req, res) {

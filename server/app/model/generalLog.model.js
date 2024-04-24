@@ -6,276 +6,208 @@ function GeneralLog(sequelize, Sequelize) {
       autoIncrement: true,
     },
     Saradomin_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Saradomin_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Saradomin_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Saradomin_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Zamorak_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Zamorak_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Zamorak_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Zamorak_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guthix_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guthix_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guthix_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guthix_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Armadyl_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Armadyl_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Armadyl_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Armadyl_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Ancient_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Ancient_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Ancient_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Ancient_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Bandos_page_1: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Bandos_page_2: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Bandos_page_3: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Bandos_page_4: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Red_firelighter: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Green_firelighter: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Blue_firelighter: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Purple_firelighter: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     White_firelighter: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Purple_sweets: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Holy_biscuits: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Pollnivneach_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Bandit_Camp_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Miscellania_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Phoenix_Lair_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Tai_Bwo_Wannai_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Fort_Forinthry_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Grand_Exchange_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     GuTanoth_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Clocktower_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Lighthouse_Teleport: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Meerkat_scroll: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Meerkats_pouch: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Small_Bonus_XP_Star: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Medium_Bonus_XP_Star: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Large_Bonus_XP_Star: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Huge_Bonus_XP_Star: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Saradomin_arrows: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guthix_arrows: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Zamorak_arrows: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Willow_composite_bow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Yew_composite_bow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Magic_composite_bow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Black_crossbow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Off_hand_black_crossbow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Black_2h_crossbow: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Black_bolts: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Puzzle_box_skipping_ticket: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Knot_skipping_ticket: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Costume_skipping_ticket: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Tower_skipping_ticket: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Lockbox_skipping_ticket: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Easy_Reroll_Token: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Medium_Reroll_Token: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Hard_Reroll_Token: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Elite_Reroll_Token: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Master_Reroll_Token: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
     Guidos_bonfire_in_a_bottle: {
-      type: Sequelize.TEXT,
-      defaultValue: 0
+      type: Sequelize.INTEGER,
     },
   });
 

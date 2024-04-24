@@ -8,26 +8,12 @@ import {getLog} from '../../util/log';
 import { clueLogActions } from "../../store/slices/clueLogSlice"
 import { useDispatch, useSelector } from "react-redux";
 
-
-
 export default function ClueLogButtons({ className, buttons, filterType }) {
   const dispatch = useDispatch();
   const currentFilterValue =
     filterType === "tier"
       ? useSelector((state) => state.clueLog.currentTier)
       : useSelector((state) => state.clueLog.currentItem);
-
-  // const {data, isLoading, isError, error} = useQuery({
-  //   queryKey: ['mylog', filterValue],
-  //   queryFn: ({signal}) => getMyLog({signal, filterValue})
-  // })
-
-  // const {mutate, isPending, isError, error} = useMutation({
-  //   mutationFn: ,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({queryKey: ['mylog', filterValue]});
-  //   }
-  // })
 
   const classes = `${className} btn-group`;
 

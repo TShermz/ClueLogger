@@ -8,7 +8,7 @@ function AuthForm({ onSubmit }) {
   const isLogin = mode === "login";
   const isSubmitting = navigation.state === "submitting";
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const {data, isPending, isError, error} = useMutation({
   //   mutationFn: auth,
@@ -43,7 +43,7 @@ function AuthForm({ onSubmit }) {
         {errorData && errorData.message && <p>{data.message}</p>}
         {!isLogin && (
           <p>
-            <label htmlFor="email">Runescape Name (RSN)</label>
+            <label htmlFor="username">Runescape Name (RSN)</label>
             <input id="username" type="text" name="username" required />
           </p>
         )}
@@ -52,7 +52,7 @@ function AuthForm({ onSubmit }) {
           <input id="email" type="email" name="email" required />
         </p>
         <p>
-          <label htmlFor="image">Password</label>
+          <label htmlFor="password">Password</label>
           <input id="password" type="password" name="password" required />
         </p>
         {isLogin && (

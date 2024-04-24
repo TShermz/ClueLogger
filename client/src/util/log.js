@@ -18,7 +18,6 @@ export const templateArray = [
 ];
 
 export async function getLog({signal, selectedLogName}) {
-  console.log('trying to send this: ' + selectedLogName);
   const response = await fetch(`http://localhost:8080/mylog/${selectedLogName}`, {
     method: "GET",
     headers: {
@@ -37,4 +36,40 @@ export async function getLog({signal, selectedLogName}) {
   const log = await response.json();
 
   return log;
+}
+
+export async function updateCommons (data) {
+  // console.log(updatedCommons);
+  const {updatedCommons, selectedLog} = data;
+  console.log(updatedCommons);
+  const response = await fetch(`http://localhost:8080/commons/${selectedLog}/edit`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "mode": "no-cors"
+    },
+    body: JSON.stringify(updatedCommons),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw json({
+      message: "Could not retrieve log.",
+      status: 500,
+    });
+  }
+
+  const message = await response.json();
+  console.log(message);
+
+  return message;
+}
+
+export async function addBroadcast () {
+  
+}
+
+export async function updateBroadcasts () {
+  
 }
