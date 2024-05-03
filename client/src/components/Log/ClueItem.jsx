@@ -3,16 +3,15 @@ import { useSelector } from "react-redux";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-export default function ClueItem({ name, value }) {
+export default function ClueItem({ name, value, isBroadcasts }) {
   if (name === "createdAt" || name === "updatedAt") {
     return;
   }
-  // const {value};
 
-  const selectedLog = useSelector((state) => state.clueLog.currentTier);
+  const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
   const isEditing = useSelector((state) => state.clueLog.isEditing);
   const displayName = name.replaceAll("_", " ");
-  const imageLink = `/hidden/${selectedLog}/${name}.png`;
+  const imageLink = isBroadcasts ? `/hidden/broadcast/${name}.png` :`/hidden/${selectedLog}/${name}.png`;
   const hasNoValue = value == 0 || value == null;
 
   const imageClass = hasNoValue && !isEditing ? 'shade' : '';

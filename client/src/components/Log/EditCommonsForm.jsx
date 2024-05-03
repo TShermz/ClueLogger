@@ -11,7 +11,7 @@ import ErrorBlock from "../UI/ErrorBlock";
 export default function EditCommonsForm({ onSubmit }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const selectedLog = useSelector((state) => state.clueLog.currentTier);
+  const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["mylog", selectedLog],
@@ -20,7 +20,7 @@ export default function EditCommonsForm({ onSubmit }) {
 
   const { mutate } = useMutation({
     mutationFn: updateCommons,
-    onSucces: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mylog", selectedLog] });
     },
   });
@@ -41,7 +41,7 @@ export default function EditCommonsForm({ onSubmit }) {
     navigate('/mylog');
   }
 
-  let content;
+  let content, commons, broadcasts;
 
   if (isLoading) {
     content = (
@@ -63,8 +63,8 @@ export default function EditCommonsForm({ onSubmit }) {
   }
 
   if (data) {
+    commons = data.commons;
     content = (
-      <div className="clue-log-container">
       <form id="commons-form" onSubmit={handleSubmit}>
         <div className="logButtons">
           <button id="submitCommonButton" type="submit" onSubmit={handleSubmit}>
@@ -76,12 +76,11 @@ export default function EditCommonsForm({ onSubmit }) {
         </div>
 
         <div className="clue-log">
-          {Object.keys(data).map((key) => (
-            <ClueItem key={key} name={key} value={data[key]} />
+          {Object.keys(commons).map((key) => (
+            <ClueItem key={key} name={key} value={commons[key]} />
           ))}
         </div>
       </form>
-      </div>
     );
   }
 

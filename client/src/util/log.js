@@ -32,16 +32,14 @@ export async function getLog({signal, selectedLogName}) {
       status: 500,
     });
   }
-
+  
   const log = await response.json();
 
   return log;
 }
 
 export async function updateCommons (data) {
-  // console.log(updatedCommons);
   const {updatedCommons, selectedLog} = data;
-  console.log(updatedCommons);
   const response = await fetch(`http://localhost:8080/commons/${selectedLog}/edit`, {
     method: "PUT",
     headers: {
@@ -61,7 +59,6 @@ export async function updateCommons (data) {
   }
 
   const message = await response.json();
-  console.log(message);
 
   return message;
 }

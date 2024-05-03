@@ -8,16 +8,6 @@ function AuthForm({ onSubmit }) {
   const isLogin = mode === "login";
   const isSubmitting = navigation.state === "submitting";
 
-  // const navigate = useNavigate();
-
-  // const {data, isPending, isError, error} = useMutation({
-  //   mutationFn: auth,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({queryKey: ['session']});
-  //     navigate('/');
-  //   }
-  // })
-
   let errorData;
 
   async function handleSubmit(e) {

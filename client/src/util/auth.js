@@ -3,12 +3,10 @@ import { redirect, json } from "react-router-dom";
 export async function auth(data) {
   //get url data params
   const { authData, mode } = data;
-  console.log(authData);
 
   if (mode !== "login" && mode !== "signup") {
     throw json({ message: "Unsupported mode.", status: 422 });
   }
-console.log(authData);
   const response = await fetch("http://localhost:8080/" + mode, {  
     method: "POST",
     headers: {

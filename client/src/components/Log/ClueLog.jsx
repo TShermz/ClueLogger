@@ -1,23 +1,19 @@
 import "./ClueLog.css";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { getLog } from "../../util/log.js";
 import { clueLogActions } from "../../store/slices/clueLogSlice.js";
 
+import BroadcastForm from "../Broadcasts/BroadcastForm.jsx";
 import ClueItem from "./ClueItem.jsx";
 import ClueLogButtons from "./ClueLogButtons.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
-const tierFilterButtons = [
-  "general",
-  "easy",
-  "medium",
-  "hard",
-  "elite",
-  "master",
-];
+const filterNames = ["general", "easy", "medium", "hard", "elite", "master"];
 
 const displayFilterButtons = [
   "General",
@@ -29,8 +25,9 @@ const displayFilterButtons = [
 ];
 
 export default function ClueLog() {
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const selectedLog = useSelector((state) => state.clueLog.currentTier);
+  const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
 
   const hasBroadcasts =
     (selectedLog === "hard") |
@@ -41,6 +38,15 @@ export default function ClueLog() {
     queryKey: ["mylog", selectedLog],
     queryFn: ({ signal }) => getLog({ signal, selectedLogName: selectedLog }),
   });
+
+  const handleCloseModal = () => {
+    console.log(showModal);
+    setShowModal(false);
+  };
+  const handleShowModal = () => {
+    console.log(showModal);
+    setShowModal(true);
+  };
 
   function handleEditing() {
     dispatch(clueLogActions.toggleEdit());
@@ -68,27 +74,36 @@ export default function ClueLog() {
   }
 
   if (data) {
-    commons = data;
-    // broadcasts = data.broadcasts;
+    broadcasts = data.broadcasts;
+    commons = data.commons;
     const editLink = `/commons/${selectedLog}/edit`;
+
     content = (
-      <div className="clue-log-container">
+      <>
         <ClueLogButtons
           className="tier-filter"
-          buttons={tierFilterButtons}
-          filterType="tier"
+          buttons={filterNames}
+          filterType="log"
         />
 
         {/* Broadcasts Section */}
         {hasBroadcasts ? (
-          <div className="logButtons">
-            <h3>Broadcasts</h3>
-            <Link to={editLink}>
-              <Button id="editCommonButton" onClick={handleEditing}>
-                Edit Broadcasts
-              </Button>
-            </Link>
-          </div>
+          <>
+            <div className="logButtons">
+              <h3>Broadcasts</h3>
+              <Button onClick={handleShowModal}>Add Broadcasts</Button>
+            </div>
+            <div className="clue-log">
+              {Object.keys(broadcasts).map((key) => (
+                <ClueItem
+                  key={key}
+                  name={key}
+                  value={broadcasts[key]}
+                  isBroadcasts={hasBroadcasts}
+                />
+              ))}
+            </div>
+          </>
         ) : null}
 
         {/* Commons Section */}
@@ -105,7 +120,26 @@ export default function ClueLog() {
             <ClueItem key={key} name={key} value={commons[key]} />
           ))}
         </div>
-      </div>
+
+        <Modal show={showModal} onClose={handleCloseModal}>
+          <Modal.Header>
+            <Modal.Title>Add Broadcast</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <BroadcastForm />
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleCloseModal}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     );
   }
 

@@ -51,4 +51,16 @@ main {
   color: #888;
 }
 
+.content-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  /* height: 80vh; */
+  margin: 2rem;
+  background-color: rgba(198, 173, 130, 0.985);
+  border-radius: 0.5rem;
+  border: black solid 3px;
+  padding: 1rem 1rem 1rem 1rem;
+}
+
 

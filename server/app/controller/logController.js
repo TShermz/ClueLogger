@@ -7,12 +7,14 @@ const MediumLog = db.mediumLog;
 const HardLog = db.hardLog;
 const EliteLog = db.eliteLog;
 const MasterLog = db.masterLog;
+const BroadcastLog = db.broadcastLog;
 
 async function getLog(req, res) {
   try {
-    let log = await queryLog(req.params.logName, req.session.user.id, req.method);
+    let {commons, broadcasts} = await queryLog(req.params.logName, req.session.user.id, req.method);
     console.log("await log: " + req.method);
-    res.json(log);
+    // res.json(log);
+    res.json({commons, broadcasts})
   } catch (error) {
     console.log(err);
   }
@@ -20,14 +22,12 @@ async function getLog(req, res) {
 
 async function updateCommons(req, res) {
   let updatedCommons = req.body;
-  console.log(updatedCommons);
+  let commons, broadcasts;
   try {
     console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-    // await GeneralLog.update(updatedLog, {where: {generalLogId: req.session.user.id}});
-    let log = await queryLog(req.params.logName, req.session.user.id, req.method);
-    console.log('THIS IS LOG: ' + req.params.logName);
-    await log.update(updatedCommons);
-    await log.save();
+    let {commons, broadcasts} = await queryLog(req.params.logName, req.session.user.id, req.method);
+    await commons.update(updatedCommons);
+    await commons.save();
 
     res.json({message: 'Log successfully updated.'});
   } catch (error) {
@@ -35,44 +35,119 @@ async function updateCommons(req, res) {
   }
 }
 
+async function getBroadcasts(req) {
+
+}
+
+async function addBroadcast (req, res){
+  let newBroadcast = req.body;
+
+  try {
+    if(!req.session.user){
+      return res.status(410).json({message: 'Please log in to add broadcasts.'})
+    }
+    let existingBroadcastLog = await BroadcastLog.findOne({where: {userId: req.session.user.id}});
+
+    if (!existingBroadcastLog){
+      return res.status(400).json({message:'Unable to find user entries; please try logging in.'});
+    };
+
+    let message = await updateBroadcastLog(req, existingBroadcastLog, newBroadcast);
+
+    res.status(200).json({message}); 
+
+  } catch (error) {
+    
+  }
+
+  sequelize
+    .sync({ alter: true })
+    .then(() => {
+      //Find item associated with the name of the new transaction
+      return Item.findOne({ where: { name: submission.name } });
+    })
+    .then((existingItem) => {
+      //If null, new item is created. Else, existing item's stats updated w/ new transaction
+      if (existingItem === null) {
+        return newItem(submission);
+      } else {
+        updateItem(submission, existingItem);
+        return existingItem;
+      }
+    })
+    .then((data) => {
+      //Store item object; create new transaction in database
+      item = data;
+      return Transaction.create(submission);
+    })
+    .then((result) => {
+      //Return new transaction to client
+      res.json(result);
+
+      //Establish relationship between item and new transaction
+      transaction = result;
+      transaction.setItem(item);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+async function getBroadcastById (req, res){
+
+}
+
 //Helper functions
 
 async function queryLog(logName, id, method) {
-  let log;
-  console.log("+!+!+!+@+@+!!+: " + method);
+  let commons, broadcasts;
   const filters = method === 'GET' ? [`${logName}LogId`, "userId"] : '';
+  const hardFilters = ['broadcastLogId', 'userId', 'Ice_dye', 'Third_Age_dye', 'Blood_dye', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top', 'Third_age_druidic_robe_bottom', 'Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"] ;
+  const eliteFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield','Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"];
+  const masterFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top','Third_age_druidic_robe_bottom'];
 
   try {
-    console.log("------------" + filters);
     switch (logName) {
       case "general":
-        log = await GeneralLog.findByPk(id, {
+        commons = await GeneralLog.findByPk(id, {
           attributes: { exclude: filters },
         });
         break;
       case "easy":
-        log = await EasyLog.findByPk(id, {
+        commons = await EasyLog.findByPk(id, {
           attributes: { exclude: filters },
         });
         break;
       case "medium":
-        log = await MediumLog.findByPk(id, {
+        commons = await MediumLog.findByPk(id, {
           attributes: { exclude: filters },
         });
         break;
       case "hard":
-        log = await HardLog.findByPk(id, {
+        commons = await HardLog.findByPk(id, {
           attributes: { exclude: filters },
+        });
+
+        broadcasts = await BroadcastLog.findByPk(id, {
+          attributes: { exclude: hardFilters},
         });
         break;
       case "elite":
-        log = await EliteLog.findByPk(id, {
+        commons = await EliteLog.findByPk(id, {
           attributes: { exclude: filters },
+        });
+
+        broadcasts = await BroadcastLog.findByPk(id, {
+          attributes: { exclude: eliteFilters},
         });
         break;
       case "master":
-        log = await MasterLog.findByPk(id, {
+        commons = await MasterLog.findByPk(id, {
           attributes: { exclude: filters },
+        });
+
+        broadcasts = await BroadcastLog.findByPk(id, {
+          attributes: { exclude: masterFilters},
         });
         break;
       default:
@@ -82,13 +157,36 @@ async function queryLog(logName, id, method) {
     console.log(error);
   }
 
-  return log;
+  return {commons, broadcasts};
+};
+
+async function updateBroadcastLog(req, existingBroadcastLog, newBroadcastEntry) {
+  //three cases: add, edit, or delete
+  let method = req.method;
+  let broadcastName = newBroadcastEntry.name;
+  let message, updatedBroadcastLog, newValue;
+
+  if(method === 'POST'){
+    //update existing log value
+    existingBroadcastLog[broadcastName]++;
+
+    //update in database
+    BroadcastLog.update(existingBroadcastLog, {where: {userId: req.session.user.id}});
+    //or could use .increment to just increase that one value...
+    return ({message, })
+  } else if(method === 'PUT'){
+    return
+  } else if (method === 'DELETE'){
+    return
+  } else {
+    return 
+  }
 }
 
-export default { getLog, updateCommons };
+export default { getLog, updateCommons, getBroadcasts, addBroadcast, getBroadcastById };
 
 // Update a Transaction
-function update(req, res) {
+function updateTransaction(req, res) {
   let transaction = req.body;
   let id = req.body.transId;
   Transaction.update(transaction, { where: { transId: id } })

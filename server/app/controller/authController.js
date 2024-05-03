@@ -16,6 +16,8 @@ const MediumLog = db.mediumLog;
 const HardLog = db.hardLog;
 const EliteLog = db.eliteLog;
 const MasterLog = db.masterLog;
+const BroadcastLog = db.broadcastLog;
+const BroadcastEntry = db.broadcastEntry;
 
 //Get session data
 function getSession(req, res) {
@@ -179,6 +181,8 @@ async function createInitialTables(createdUser) {
   eliteLog.setUser(createdUser);
   const masterLog = await MasterLog.create();
   masterLog.setUser(createdUser);
+  const broadcastLog = await BroadcastLog.create();
+  broadcastLog.setUser(createdUser);
   return;
 }
 

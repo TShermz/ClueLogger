@@ -1,0 +1,8 @@
+.MuiTableContainer-root, .MuiToolbar-root{
+    background-color: rgb(139, 145, 161);
+    border: black solid 1px;
+}
+
+.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
+    margin-top: auto;
+}

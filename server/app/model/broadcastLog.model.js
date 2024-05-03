@@ -11,9 +11,6 @@ function BroadcastLog(sequelize, Sequelize) {
     Sack_of_effigies: {
       type: Sequelize.INTEGER,
     },
-    Explosive_barrel: {
-      type: Sequelize.INTEGER,
-    },
     Barrows_dye: {
       type: Sequelize.INTEGER,
     },
@@ -65,6 +62,9 @@ function BroadcastLog(sequelize, Sequelize) {
     Third_age_kiteshield: {
       type: Sequelize.INTEGER,
     },
+    Explosive_barrel: {
+      type: Sequelize.INTEGER,
+    },
     Third_age_druidic_staff: {
       type: Sequelize.INTEGER,
     },
@@ -78,6 +78,42 @@ function BroadcastLog(sequelize, Sequelize) {
       type: Sequelize.INTEGER,
     },
     Third_age_druidic_robe_bottom: {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_full_helm': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_platebody': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_platelegs': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_sword': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_mage_mask': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_robe_top': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_robe_bottom': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_staff': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_range_coif': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_range_top': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_range_legs': {
+      type: Sequelize.INTEGER,
+    },
+    'Second-Age_bow': {
       type: Sequelize.INTEGER,
     },
     Orlando_Smiths_hat: {

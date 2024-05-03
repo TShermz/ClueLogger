@@ -9,12 +9,11 @@ import { queryClient } from "./util/http.js";
 import RootLayout from "./pages/Root.jsx";
 import Protected from "./pages/Protected.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import MyClueLog from "./pages/MyClueLog.jsx";
+import MyLogs from "./pages/MyLogsPage.jsx";
+import MyBroadcastsPage from "./pages/MyBroadcastsPage.jsx";
 import EditCommonsPage from "./pages/EditCommonsPage.jsx";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import Authentication from "./pages/AuthenticationPage.jsx";
-
-import { logout } from "./util/auth.js";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
         path: "mylog",
         element: (
           <Protected>
-            <MyClueLog />
+            <MyLogs />
           </Protected>
         ),
       },
@@ -40,7 +39,15 @@ const router = createBrowserRouter([
           </Protected>
         ),
       },
-      // { path: "broadcast", children: [{ path: "add" }, { path: "edit" }] },
+      {
+        path: 'mybroadcasts', 
+        children:[
+        {
+          index: true, 
+          element: <Protected><MyBroadcastsPage /></Protected>
+        },
+
+      ]},
       { path: "auth", element: <Authentication /> },
       { path: "logout" },
     ],

@@ -1,24 +1,26 @@
 import "./ClueLogButtons.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
-import {queryClient} from '../../util/http';
-import {getLog} from '../../util/log';
-
-import { clueLogActions } from "../../store/slices/clueLogSlice"
+import { clueLogActions } from "../../store/slices/clueLogSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ClueLogButtons({ className, buttons, filterType }) {
   const dispatch = useDispatch();
   const currentFilterValue =
-    filterType === "tier"
-      ? useSelector((state) => state.clueLog.currentTier)
-      : useSelector((state) => state.clueLog.currentItem);
+    filterType === "log"
+      ? useSelector((state) => state.clueLog.currentLogFilter)
+      : useSelector((state) => state.clueLog.currentBroadcastFilter);
+    console.log(currentFilterValue);
 
   const classes = `${className} btn-group`;
 
   function handleClick(filterValue, filterType) {
-    dispatch(clueLogActions.filter({filterValue, filterType}));
+    if(filterType === "log"){
+      dispatch(clueLogActions.filterLog({ filterValue }));
+    } else {
+      dispatch(clueLogActions.filterBroadcasts({ filterValue }));
+
+    }
   }
 
   return (

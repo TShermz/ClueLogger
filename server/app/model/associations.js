@@ -6,6 +6,8 @@ export default function createAssociations(db) {
   const HardLog = db.hardLog;
   const EliteLog = db.eliteLog
   const MasterLog = db.masterLog
+  const BroadcastLog = db.broadcastLog;
+  const BroadcastEntry = db.broadcastEntry;
 
   //Relationships
   User.hasOne(GeneralLog, {onDelete: "CASCADE"});
@@ -25,6 +27,12 @@ export default function createAssociations(db) {
 
   User.hasOne(MasterLog, {onDelete: "CASCADE"});
   MasterLog.belongsTo(User, {onDelete: "CASCADE"});
+
+  User.hasOne(BroadcastLog, {onDelete: "CASCADE"});
+  BroadcastLog.belongsTo(User, {onDelete: "CASCADE"});
+
+  User.hasMany(BroadcastEntry, {onDelete: "CASCADE"});
+  BroadcastEntry.belongsTo(User, {onDelete: "CASCADE"});
 
 
 }

@@ -7,6 +7,8 @@ import MediumLog from "../model/mediumLog.model.js";
 import HardLog from "../model/hardLog.model.js";
 import EliteLog from "../model/eliteLog.model.js";
 import MasterLog from "../model/masterLog.model.js";
+import BroadcastEntry from "../model/broadcastEntry.model.js";
+import BroadcastLog from "../model/broadcastLog.model.js"
 import createAssociations from "../model/associations.js";
 
 const sequelize = new Sequelize({
@@ -27,6 +29,8 @@ db.mediumLog = MediumLog(sequelize, Sequelize);
 db.hardLog = HardLog(sequelize, Sequelize);
 db.eliteLog = EliteLog(sequelize, Sequelize);
 db.masterLog = MasterLog(sequelize, Sequelize);
+db.broadcastLog = BroadcastLog(sequelize, Sequelize);
+db.broadcastEntry = BroadcastEntry(sequelize, Sequelize);
 
 //Create relationships
 createAssociations(db);
