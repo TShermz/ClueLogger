@@ -1,7 +1,6 @@
 import "./BroadcastForm.css";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 
@@ -16,6 +15,7 @@ import {
 const filterNames = ["hard", "elite", "master"];
 
 export default function BroadcastForm({ inputData, onSubmit, children }) {
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
 
   const selectedLog = useSelector(
@@ -36,13 +36,6 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
     currentBroadcasts = masterBroadcasts;
   }
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -58,68 +51,57 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
 
   return (
     <>
-      <Modal show={handleShowModal} onClose={handleCloseModal}>
-        <Modal.Header>
-          <Modal.Title>Add Broadcast</Modal.Title>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Cancel
-          </Button>
-        </Modal.Header>
+      <ClueLogButtons
+        className="tier-filter"
+        buttons={filterNames}
+        filterType="broadcastForm"
+      />
 
-        <Modal.Body>
-          <ClueLogButtons
-            className="tier-filter"
-            buttons={filterNames}
-            filterType="broadcastForm"
+      <form id="broadcastForm" onSubmit={handleSubmit} className="form">
+        <BroadcastImagePicker
+          broadcasts={currentBroadcasts}
+          hasBroadcasts={true}
+          isForm={true}
+        />
+
+        <p>
+          <label htmlFor="count">Clue Count</label>
+          <input id="count" type="number" name="count" required />
+        </p>
+
+        <p>
+          <label htmlFor="dateReceived">Date Received</label>
+          <input
+            id="dateReceived"
+            type="date"
+            name="dateReceived"
+            required
           />
+        </p>
 
-          <form id="broadcastForm" onSubmit={handleSubmit} className="form">
-            <BroadcastImagePicker
-              broadcasts={currentBroadcasts}
-              hasBroadcasts={true}
-              isForm={true}
-            />
+        <div key={`inline-radio`} className="mb-3">
+          <Form.Check
+            inline
+            label="1"
+            name="group1"
+            type='radio'
+            id={`inline-radio-1`}
+          />
+        </div>
 
-            <p>
-              <label htmlFor="count">Clue Count</label>
-              <input id="count" type="number" name="count" required />
-            </p>
 
-            <p>
-              <label htmlFor="dateReceived">Date Received</label>
-              <input
-                id="dateReceived"
-                type="date"
-                name="dateReceived"
-                required
-              />
-            </p>
+        <button
+          className="submitButton"
+          // disabled={isSubmitting}
+          type="submit"
+        >
+          {/* {isSubmitting ? "Submitting..." : "Login"} */}
+        </button>
 
-            <div key={`inline-radio`} className="mb-3">
-              <Form.Check
-                inline
-                label="1"
-                name="group1"
-                type='radio'
-                id={`inline-radio-1`}
-              />
-            </div>
-            
-
-            <button
-              className="submitButton"
-              // disabled={isSubmitting}
-              type="submit"
-            >
-              {/* {isSubmitting ? "Submitting..." : "Login"} */}
-            </button>
-
-            <Button variant="primary" type="submit">
-              Save Changes
-            </Button>
-          </form>
-        </Modal.Body>
-      </Modal>
+        <Button variant="primary" type="submit">
+          Save Changes
+        </Button>
+      </form>
     </>
   );
 }

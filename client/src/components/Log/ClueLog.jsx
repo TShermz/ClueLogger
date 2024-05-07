@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getLog } from "../../util/log.js";
 import { clueLogActions } from "../../store/slices/clueLogSlice.js";
-
+import Modal from "react-bootstrap/Modal";
 import BroadcastForm from "../Broadcasts/BroadcastForm.jsx";
 import ClueItemArray from "./ClueItemArray.jsx";
 import ClueLogButtons from "./ClueLogButtons.jsx";
@@ -42,6 +42,13 @@ export default function ClueLog() {
     dispatch(clueLogActions.toggleEdit());
   }
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
   let content, commons, broadcasts;
 
   if (isLoading) {
@@ -75,7 +82,6 @@ export default function ClueLog() {
           buttons={filterNames}
           filterType="log"
         />
-
         {/* Broadcasts Section */}
         {hasBroadcasts ? (
           <>
@@ -96,9 +102,21 @@ export default function ClueLog() {
             </Button>
           </Link>
         </div>
+        
         <ClueItemArray items={commons} />
 
-        <BroadcastForm />
+        <Modal show={showModal} onClose={handleCloseModal}>
+          <Modal.Header>
+            <Modal.Title>Add Broadcast</Modal.Title>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Cancel
+            </Button>
+          </Modal.Header>
+
+          <Modal.Body>
+            <BroadcastForm />
+          </Modal.Body>
+        </Modal>
       </>
     );
   }

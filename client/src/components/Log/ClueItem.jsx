@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useDispatch } from "react-redux";
+import {createPortal} from 'react-dom';
 
 import { clueLogActions } from "../../store/slices/clueLogSlice";
 
@@ -28,7 +29,7 @@ export default function ClueItem({ name, value, isBroadcasts, isForm }) {
   clueItemClasses = isForm && selectedBroadcast === name ? clueItemClasses + " selected-broadcast" : clueItemClasses;
 
   function handleSelectImage(broadcast) {
-    dispatch(clueLogActions.selectBroadcast({broadcast}));
+    dispatch(clueLogActions.selectBroadcast({ broadcast }));
   }
   console.log(selectedBroadcast + ' ' + name);
 
@@ -53,8 +54,8 @@ export default function ClueItem({ name, value, isBroadcasts, isForm }) {
               name={name}
               defaultValue={value}
               placeholder="0"
-            />
-          )}
+            />)
+          }
           <img src={imageLink} alt={displayName} className={imageClass} />
         </div>
       </OverlayTrigger>
