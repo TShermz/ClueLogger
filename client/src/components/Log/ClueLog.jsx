@@ -3,13 +3,12 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { getLog } from "../../util/log.js";
 import { clueLogActions } from "../../store/slices/clueLogSlice.js";
 
 import BroadcastForm from "../Broadcasts/BroadcastForm.jsx";
-import ClueItem from "./ClueItem.jsx";
+import ClueItemArray from "./ClueItemArray.jsx";
 import ClueLogButtons from "./ClueLogButtons.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
@@ -38,15 +37,6 @@ export default function ClueLog() {
     queryKey: ["mylog", selectedLog],
     queryFn: ({ signal }) => getLog({ signal, selectedLogName: selectedLog }),
   });
-
-  const handleCloseModal = () => {
-    console.log(showModal);
-    setShowModal(false);
-  };
-  const handleShowModal = () => {
-    console.log(showModal);
-    setShowModal(true);
-  };
 
   function handleEditing() {
     dispatch(clueLogActions.toggleEdit());
@@ -91,18 +81,9 @@ export default function ClueLog() {
           <>
             <div className="logButtons">
               <h3>Broadcasts</h3>
-              <Button onClick={handleShowModal}>Add Broadcasts</Button>
+              <Button onClick={handleShowModal}>Add Broadcast</Button>
             </div>
-            <div className="clue-log">
-              {Object.keys(broadcasts).map((key) => (
-                <ClueItem
-                  key={key}
-                  name={key}
-                  value={broadcasts[key]}
-                  isBroadcasts={hasBroadcasts}
-                />
-              ))}
-            </div>
+            <ClueItemArray items={broadcasts} hasBroadcasts />
           </>
         ) : null}
 
@@ -115,30 +96,9 @@ export default function ClueLog() {
             </Button>
           </Link>
         </div>
-        <div className="clue-log">
-          {Object.keys(commons).map((key) => (
-            <ClueItem key={key} name={key} value={commons[key]} />
-          ))}
-        </div>
+        <ClueItemArray items={commons} />
 
-        <Modal show={showModal} onClose={handleCloseModal}>
-          <Modal.Header>
-            <Modal.Title>Add Broadcast</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <BroadcastForm />
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleCloseModal}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <BroadcastForm />
       </>
     );
   }

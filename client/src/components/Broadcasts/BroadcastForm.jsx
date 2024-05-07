@@ -1,17 +1,56 @@
-import classes from "./BroadcastForm.module.css";
+import "./BroadcastForm.css";
 import { useState } from "react";
-import BroadcastImagePicker from './BroadcastImagePicker';
+import { useSelector, useDispatch } from "react-redux";
+import Modal from "react-bootstrap/Modal";
+import { Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
-export default function BroadcastForm({inputData, onSubmit, children}) {
-  const [selectedImage, setSelectedImage] = useState(inputData?.image);
+import ClueLogButtons from "../Log/ClueLogButtons";
+import BroadcastImagePicker from "./BroadcastImagePicker";
+import {
+  hardBroadcasts,
+  eliteBroadcasts,
+  masterBroadcasts,
+} from "../../util/constants";
+
+const filterNames = ["hard", "elite", "master"];
+
+export default function BroadcastForm({ inputData, onSubmit, children }) {
+  const dispatch = useDispatch();
+
+  const selectedLog = useSelector(
+    (state) => state.clueLog.currentBroadcastFormFilter
+  );
+
+  const selectedBroadcast = useSelector(
+    (state) => state.clueLog.selectedBroadcast
+  );
+
+  let currentBroadcasts;
+
+  if (selectedLog === "hard") {
+    currentBroadcasts = hardBroadcasts;
+  } else if (selectedLog === "elite") {
+    currentBroadcasts = eliteBroadcasts;
+  } else {
+    currentBroadcasts = masterBroadcasts;
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
+    const allData = { ...data, clueTier: selectedLog, name: selectedBroadcast };
 
-    console.log(data);
+    console.log(allData);
 
     // errorData = await onSubmit(data, mode);
     //exit modal
@@ -19,30 +58,68 @@ export default function BroadcastForm({inputData, onSubmit, children}) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={classes.form}>
-        {/* Casket images to select */}
-        <p>
-          <label htmlFor="tier">Clue Tier</label>
-          <input id="tier" type="text" name="tier" required />
-        </p>
-        {/* Broadcast images based on tier selected */}
-        <BroadcastImagePicker images={broadcasts} onSelect={}/>
-        <p>
-          <label htmlFor="tier">Clue Count</label>
-          <input id="tier" type="text" name="tier" required />
-        </p>
-        <p>
-          <label htmlFor="dateReceived">Clue Tier</label>
-          <input id="dateReceived" type="date" name="dateReceived" required />
-        </p>
-        <button
-          className={classes.submitButton}
-          // disabled={isSubmitting}
-          type="submit"
-        >
-          {/* {isSubmitting ? "Submitting..." : "Login"} */}
-        </button>
-      </form>
+      <Modal show={handleShowModal} onClose={handleCloseModal}>
+        <Modal.Header>
+          <Modal.Title>Add Broadcast</Modal.Title>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+        </Modal.Header>
+
+        <Modal.Body>
+          <ClueLogButtons
+            className="tier-filter"
+            buttons={filterNames}
+            filterType="broadcastForm"
+          />
+
+          <form id="broadcastForm" onSubmit={handleSubmit} className="form">
+            <BroadcastImagePicker
+              broadcasts={currentBroadcasts}
+              hasBroadcasts={true}
+              isForm={true}
+            />
+
+            <p>
+              <label htmlFor="count">Clue Count</label>
+              <input id="count" type="number" name="count" required />
+            </p>
+
+            <p>
+              <label htmlFor="dateReceived">Date Received</label>
+              <input
+                id="dateReceived"
+                type="date"
+                name="dateReceived"
+                required
+              />
+            </p>
+
+            <div key={`inline-radio`} className="mb-3">
+              <Form.Check
+                inline
+                label="1"
+                name="group1"
+                type='radio'
+                id={`inline-radio-1`}
+              />
+            </div>
+            
+
+            <button
+              className="submitButton"
+              // disabled={isSubmitting}
+              type="submit"
+            >
+              {/* {isSubmitting ? "Submitting..." : "Login"} */}
+            </button>
+
+            <Button variant="primary" type="submit">
+              Save Changes
+            </Button>
+          </form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

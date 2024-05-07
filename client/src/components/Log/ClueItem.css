@@ -54,3 +54,10 @@
 .editing img {
   margin: auto;
 }
+
+.selected-broadcast {
+  border: 2px solid #dadada;
+  border-radius: 7px;
+  background-color: rgba(182, 187, 141, 0.794);
+
+}

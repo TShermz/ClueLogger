@@ -6,20 +6,31 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ClueLogButtons({ className, buttons, filterType }) {
   const dispatch = useDispatch();
-  const currentFilterValue =
-    filterType === "log"
-      ? useSelector((state) => state.clueLog.currentLogFilter)
-      : useSelector((state) => state.clueLog.currentBroadcastFilter);
-    console.log(currentFilterValue);
+  let currentFilterValue;
+
+  if (filterType === "log") {
+    currentFilterValue = useSelector(
+      (state) => state.clueLog.currentLogFilter
+    );
+  } else if (filterType === "broadcast") {
+    currentFilterValue = useSelector(
+      (state) => state.clueLog.currentLogFilter
+    );
+  } else if (filterType === "broadcastForm") {
+    currentFilterValue = useSelector(
+      (state) => state.clueLog.currentBroadcastFormFilter
+    );
+  }
 
   const classes = `${className} btn-group`;
 
   function handleClick(filterValue, filterType) {
-    if(filterType === "log"){
+    if (filterType === "log") {
       dispatch(clueLogActions.filterLog({ filterValue }));
-    } else {
+    } else if (filterType === "broadcast")  {
       dispatch(clueLogActions.filterBroadcasts({ filterValue }));
-
+    } else if (filterType === "broadcastForm") {
+      dispatch(clueLogActions.filterBroadcastForm({ filterValue }));
     }
   }
 

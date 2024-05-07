@@ -10,11 +10,15 @@ const MasterLog = db.masterLog;
 const BroadcastLog = db.broadcastLog;
 
 async function getLog(req, res) {
+  let logName = req.params.logName;
+  let userId = req.session.user.id;
+  let method = req.method;
+
   try {
-    let {commons, broadcasts} = await queryLog(req.params.logName, req.session.user.id, req.method);
-    console.log("await log: " + req.method);
-    // res.json(log);
-    res.json({commons, broadcasts})
+    let commons = await getCommons(logName, userId, method);
+    let broadcasts = await getBroadcasts(logName, userId, method);
+
+    res.status(200).json({commons, broadcasts})
   } catch (error) {
     console.log(err);
   }
@@ -22,10 +26,10 @@ async function getLog(req, res) {
 
 async function updateCommons(req, res) {
   let updatedCommons = req.body;
-  let commons, broadcasts;
+  let commons;
   try {
     console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-    let {commons, broadcasts} = await queryLog(req.params.logName, req.session.user.id, req.method);
+    let commons = await getCommons(req.params.logName, req.session.user.id, req.method);
     await commons.update(updatedCommons);
     await commons.save();
 
@@ -35,7 +39,7 @@ async function updateCommons(req, res) {
   }
 }
 
-async function getBroadcasts(req) {
+async function getDetailedBroadcasts(req) {
 
 }
 
@@ -99,66 +103,73 @@ async function getBroadcastById (req, res){
 
 //Helper functions
 
-async function queryLog(logName, id, method) {
-  let commons, broadcasts;
+async function getCommons(logName, id, method) {
+  let commons;
   const filters = method === 'GET' ? [`${logName}LogId`, "userId"] : '';
-  const hardFilters = ['broadcastLogId', 'userId', 'Ice_dye', 'Third_Age_dye', 'Blood_dye', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top', 'Third_age_druidic_robe_bottom', 'Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"] ;
-  const eliteFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield','Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"];
-  const masterFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top','Third_age_druidic_robe_bottom'];
 
   try {
     switch (logName) {
       case "general":
-        commons = await GeneralLog.findByPk(id, {
+        return await GeneralLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-        break;
       case "easy":
-        commons = await EasyLog.findByPk(id, {
+        return await EasyLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-        break;
       case "medium":
-        commons = await MediumLog.findByPk(id, {
+        return await MediumLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-        break;
       case "hard":
-        commons = await HardLog.findByPk(id, {
+        return await HardLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-
-        broadcasts = await BroadcastLog.findByPk(id, {
-          attributes: { exclude: hardFilters},
-        });
-        break;
       case "elite":
-        commons = await EliteLog.findByPk(id, {
+        return await EliteLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-
-        broadcasts = await BroadcastLog.findByPk(id, {
-          attributes: { exclude: eliteFilters},
-        });
-        break;
       case "master":
-        commons = await MasterLog.findByPk(id, {
+        return await MasterLog.findByPk(id, {
           attributes: { exclude: filters },
         });
-
-        broadcasts = await BroadcastLog.findByPk(id, {
-          attributes: { exclude: masterFilters},
-        });
-        break;
       default:
         return;
     }
   } catch (error) {
     console.log(error);
   }
-
-  return {commons, broadcasts};
 };
+
+async function getBroadcasts(logName, id, method) {
+  // let broadcasts;
+  const hardFilters = ['broadcastLogId', 'userId', 'Ice_dye', 'Third_Age_dye', 'Blood_dye', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top', 'Third_age_druidic_robe_bottom', 'Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"] ;
+  const eliteFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield','Second-Age_full_helm', 'Second-Age_platebody', 'Second-Age_platelegs', 'Second-Age_sword', 'Second-Age_mage_mask', 'Second-Age_robe_top', 'Second-Age_robe_bottom', 'Second-Age_staff', 'Second-Age_range_coif', 'Second-Age_range_top', 'Second-Age_range_legs', 'Second-Age_bow', "Orlando_Smiths_hat"];
+  const masterFilters = ['broadcastLogId', 'userId', 'Explosive_barrel', 'Third_age_ranger_coif', 'Third_age_ranger_body', 'Third_age_ranger_chaps', 'Third_age_vambraces','Third_age_robe_top', 'Third_age_robe', 'Third_age_mage_hat', 'Third_age_amulet', 'Third_age_platelegs', 'Third_age_platebody', 'Third_age_full_helmet', 'Third_age_kiteshield', 'Third_age_druidic_staff', 'Third_age_druidic_cloak', 'Third_age_druidic_wreath', 'Third_age_druidic_robe_top','Third_age_druidic_robe_bottom'];
+
+  try {
+    switch (logName) {
+      case "hard":
+        return await BroadcastLog.findByPk(id, {
+          attributes: { exclude: hardFilters},
+        });
+      case "elite":
+        return await BroadcastLog.findByPk(id, {
+          attributes: { exclude: eliteFilters},
+        });
+      case "master":
+        return await BroadcastLog.findByPk(id, {
+          attributes: { exclude: masterFilters},
+        });
+      default:
+        return;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 
 async function updateBroadcastLog(req, existingBroadcastLog, newBroadcastEntry) {
   //three cases: add, edit, or delete
