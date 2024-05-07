@@ -61,3 +61,7 @@
   background-color: rgba(182, 187, 141, 0.794);
 
 }
+
+#tooltip-top {
+  position: absolute;
+}
