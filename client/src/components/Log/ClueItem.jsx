@@ -31,8 +31,7 @@ export default function ClueItem({ name, value, isBroadcasts, isForm }) {
   function handleSelectImage(broadcast) {
     dispatch(clueLogActions.selectBroadcast({ broadcast }));
   }
-  console.log(selectedBroadcast + ' ' + name);
-
+  
   return (
     <>
       <OverlayTrigger

@@ -24,6 +24,10 @@ const clueLogSlice = createSlice({
     selectBroadcast(state, action){
       state.selectedBroadcast = action.payload.broadcast;
     },
+    resetBroadcastForm(state){
+      state.selectedBroadcast = undefined;
+      state.currentBroadcastFormFilter = 'hard';
+    },
     toggleEdit(state) {
       state.isEditing = !state.isEditing;
     },

@@ -44,6 +44,7 @@ export default function ClueLog() {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    dispatch(clueLogActions.resetBroadcastForm());
   };
   const handleShowModal = () => {
     setShowModal(true);
