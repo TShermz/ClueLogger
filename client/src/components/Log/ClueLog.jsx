@@ -106,7 +106,7 @@ export default function ClueLog() {
         
         <ClueItemArray items={commons} />
 
-        <Modal show={showModal} onClose={handleCloseModal}>
+        <Modal size="lg" show={showModal} onClose={handleCloseModal}>
           <Modal.Header>
             <Modal.Title>Add Broadcast</Modal.Title>
             <Button variant="secondary" onClick={handleCloseModal}>
@@ -115,7 +115,7 @@ export default function ClueLog() {
           </Modal.Header>
 
           <Modal.Body>
-            <BroadcastForm />
+            <BroadcastForm handleClose={handleCloseModal}/>
           </Modal.Body>
         </Modal>
       </>

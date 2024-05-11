@@ -62,11 +62,3 @@ export async function updateCommons (data) {
 
   return message;
 }
-
-export async function addBroadcast () {
-  
-}
-
-export async function updateBroadcasts () {
-  
-}

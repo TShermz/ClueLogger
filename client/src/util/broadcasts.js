@@ -1,4 +1,6 @@
 export async function addBroadcast(data) {
+  console.log(JSON.stringify(data))
+  // return;
     const response = await fetch(`http://localhost:8080/broadcast/add`, {
       method: "POST",
       headers: {

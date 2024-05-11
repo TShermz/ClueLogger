@@ -16,6 +16,9 @@ function BroadcastEntry(sequelize, Sequelize) {
     },
     dateReceived: {
       type: Sequelize.DATE,
+    },
+    source: {
+      type: Sequelize.STRING
     }
 
   });

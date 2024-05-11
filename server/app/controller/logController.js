@@ -8,6 +8,8 @@ const HardLog = db.hardLog;
 const EliteLog = db.eliteLog;
 const MasterLog = db.masterLog;
 const BroadcastLog = db.broadcastLog;
+const BroadcastEntry = db.broadcastEntry;
+const User = db.user;
 
 async function getLog(req, res) {
   let logName = req.params.logName;
@@ -57,44 +59,15 @@ async function addBroadcast (req, res){
     };
 
     let message = await updateBroadcastLog(req, existingBroadcastLog, newBroadcast);
+    let newBroadcastEntry = await BroadcastEntry.create(newBroadcast);
+    let user = await User.findOne({where: {id: req.session.user.id}});
+    newBroadcastEntry.setUser(user); 
 
     res.status(200).json({message}); 
 
   } catch (error) {
-    
+    console.log(err);
   }
-
-  sequelize
-    .sync({ alter: true })
-    .then(() => {
-      //Find item associated with the name of the new transaction
-      return Item.findOne({ where: { name: submission.name } });
-    })
-    .then((existingItem) => {
-      //If null, new item is created. Else, existing item's stats updated w/ new transaction
-      if (existingItem === null) {
-        return newItem(submission);
-      } else {
-        updateItem(submission, existingItem);
-        return existingItem;
-      }
-    })
-    .then((data) => {
-      //Store item object; create new transaction in database
-      item = data;
-      return Transaction.create(submission);
-    })
-    .then((result) => {
-      //Return new transaction to client
-      res.json(result);
-
-      //Establish relationship between item and new transaction
-      transaction = result;
-      transaction.setItem(item);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 async function getBroadcastById (req, res){
@@ -174,17 +147,22 @@ async function getBroadcasts(logName, id, method) {
 async function updateBroadcastLog(req, existingBroadcastLog, newBroadcastEntry) {
   //three cases: add, edit, or delete
   let method = req.method;
-  let broadcastName = newBroadcastEntry.name;
+  let broadcastName = newBroadcastEntry.broadcastName;
   let message, updatedBroadcastLog, newValue;
 
   if(method === 'POST'){
     //update existing log value
     existingBroadcastLog[broadcastName]++;
+    // console.log(existingBroadcastLog[broadcastName]);
+    // console.log(existingBroadcastLog.broadcastName);
+    // console.log(req.session.user.id)
+    // return;
+    existingBroadcastLog.save();
+
 
     //update in database
-    BroadcastLog.update(existingBroadcastLog, {where: {userId: req.session.user.id}});
-    //or could use .increment to just increase that one value...
-    return ({message, })
+    // BroadcastLog.update(existingBroadcastLog, {where: {userId: req.session.user.id}});
+    return ({message: 'Broadcast log succesfully updated.'});
   } else if(method === 'PUT'){
     return
   } else if (method === 'DELETE'){

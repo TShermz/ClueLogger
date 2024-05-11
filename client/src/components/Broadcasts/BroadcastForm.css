@@ -3,10 +3,14 @@
   justify-content: space-between;
 }
 
+.modal-body, .modal-header {
+  background-color: rgb(165, 179, 202);
+}
+
 .form {
-    max-width: 40rem;
+    /* max-width: 40rem; */
     /* margin: 2rem auto; */
-    background-color: rgb(120, 121, 122) !important;
+    /* background-color: rgb(120, 121, 122) !important; */
     padding: 1rem;
   }
   
@@ -21,7 +25,8 @@
   .form textarea {
     font: inherit;
     padding: 0.25rem;
-    background-color: rgb(1, 9, 12);
+    background-color: white;
+    color: black;
   }
   
   .submitButton {

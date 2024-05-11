@@ -3,12 +3,10 @@ import { useSelector } from "react-redux";
 
 export default function ClueItemArray({ items, inputData, hasBroadcasts, isForm }) {
   const selectedBroadcast = useSelector((state) => state.clueLog.selectedBroadcast);
-  console.log(selectedBroadcast);
 
   return (
     <div className="clue-log">
       {Object.keys(items).map((key) => (
-        <>
           <ClueItem
             key={key}
             name={key}
@@ -17,7 +15,6 @@ export default function ClueItemArray({ items, inputData, hasBroadcasts, isForm 
             isBroadcasts={hasBroadcasts}
             isForm={isForm}
           />
-        </>
       ))}
     </div>
   );

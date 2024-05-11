@@ -12,7 +12,10 @@ import {
   eliteBroadcasts,
   masterBroadcasts,
 } from "../../util/constants";
+
+import { addBroadcast } from "../../util/broadcasts";
 import { clueLogActions } from "../../store/slices/clueLogSlice";
+import {queryClient} from '../../util/http';
 
 const filterNames = ["hard", "elite", "master"];
 const sources = [
@@ -24,17 +27,22 @@ const sources = [
   "Wilderness Flash Event",
 ];
 
-export default function BroadcastForm({ inputData, onSubmit, children }) {
-  const [showModal, setShowModal] = useState(false);
+export default function BroadcastForm({ handleClose }) {
   const dispatch = useDispatch();
-
   const selectedLog = useSelector(
     (state) => state.clueLog.currentBroadcastFormFilter
   );
-
   const selectedBroadcast = useSelector(
     (state) => state.clueLog.selectedBroadcast
   );
+
+  const { mutate } = useMutation({
+    mutationFn: addBroadcast,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mylog"] });
+      handleClose();
+    },
+  });
 
   let currentBroadcasts, errorData;
 
@@ -46,21 +54,22 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
     currentBroadcasts = masterBroadcasts;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-
-    const allData = { ...data, clueTier: selectedLog, name: selectedBroadcast };
-    if (allData.name === undefined) {
+  async function handleSubmit(event) {
+    event.preventDefault();
+        
+    if (selectedBroadcast === undefined) {
       console.log("error");
       return errorData = {title: "Form Incomplete", message: "Please select a broadcast before submitting."};
     }
-    console.log(allData);
-    // dispatch(clueLogActions.resetBroadcastForm());
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    const allData = { ...data, clueTier: selectedLog, broadcastName: selectedBroadcast };
+
+    mutate(allData);
 
     // errorData = await onSubmit(data, mode);
-    //exit modal
   }
 
   return (
@@ -81,7 +90,7 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
           style={{ width: "100%", backgroundColor: "black", color: "white" }}
         >
           {sources.map((source) => {
-            return <option>{source}</option>;
+            return <option key={source}>{source}</option>;
           })}
         </Form.Select>
 
@@ -98,7 +107,7 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
           <input
             id="count"
             type="number"
-            name="count"
+            name="clueCount"
             placeholder="If unknown, leave blank."
           />
         </p>
@@ -108,16 +117,8 @@ export default function BroadcastForm({ inputData, onSubmit, children }) {
           <input id="dateReceived" type="date" name="dateReceived" defaultValue={undefined} />
         </p>
 
-        <button
-          className="submitButton"
-          // disabled={isSubmitting}
-          type="submit"
-        >
-          {/* {isSubmitting ? "Submitting..." : "Login"} */}
-        </button>
-
         <Button variant="primary" type="submit">
-          Save Changes
+          Add Broadcast
         </Button>
       </form>
     </>

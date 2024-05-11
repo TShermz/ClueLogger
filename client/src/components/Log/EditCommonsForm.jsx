@@ -35,7 +35,7 @@ export default function EditCommonsForm({ onSubmit }) {
 
     const formData = new FormData(event.target);
     const updatedCommons = Object.fromEntries(formData);
-
+    
     mutate({updatedCommons, selectedLog});
     dispatch(clueLogActions.toggleEdit());
     navigate('/mylog');
