@@ -1,10 +1,9 @@
 import "./BroadcastForm.css";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 
-import ClueLogButtons from "../Log/ClueLogButtons";
+import FilterTierButtons from "../UI/FilterTierButtons"
 import ErrorBlock from "../UI/ErrorBlock";
 import BroadcastImagePicker from "./BroadcastImagePicker";
 import {
@@ -14,8 +13,7 @@ import {
 } from "../../util/constants";
 
 import { addBroadcast } from "../../util/broadcasts";
-import { clueLogActions } from "../../store/slices/clueLogSlice";
-import {queryClient} from '../../util/http';
+import { queryClient } from "../../util/http";
 
 const filterNames = ["hard", "elite", "master"];
 const sources = [
@@ -28,12 +26,11 @@ const sources = [
 ];
 
 export default function BroadcastForm({ handleClose }) {
-  const dispatch = useDispatch();
   const selectedLog = useSelector(
-    (state) => state.clueLog.currentBroadcastFormFilter
+    (state) => state.broadcastForm.currentBroadcastFormFilter
   );
   const selectedBroadcast = useSelector(
-    (state) => state.clueLog.selectedBroadcast
+    (state) => state.broadcastForm.selectedBroadcast
   );
 
   const { mutate } = useMutation({
@@ -56,16 +53,23 @@ export default function BroadcastForm({ handleClose }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-        
+
     if (selectedBroadcast === undefined) {
       console.log("error");
-      return errorData = {title: "Form Incomplete", message: "Please select a broadcast before submitting."};
+      return (errorData = {
+        title: "Form Incomplete",
+        message: "Please select a broadcast before submitting.",
+      });
     }
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    const allData = { ...data, clueTier: selectedLog, broadcastName: selectedBroadcast };
+    const allData = {
+      ...data,
+      clueTier: selectedLog,
+      broadcastName: selectedBroadcast,
+    };
 
     mutate(allData);
 
@@ -74,53 +78,63 @@ export default function BroadcastForm({ handleClose }) {
 
   return (
     <>
-      {errorData && <ErrorBlock title={errorData.title} message={errorData.message}/>}
-      <ClueLogButtons
+      {errorData && (
+        <ErrorBlock title={errorData.title} message={errorData.message} />
+      )}
+      <FilterTierButtons
         className="tier-filter"
         buttons={filterNames}
         filterType="broadcastForm"
       />
 
-      <form id="broadcastForm" onSubmit={handleSubmit} className="form">
-        <p style={{ fontWeight: "bold" }}>Required Information:</p>
+      <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
+        <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
 
-        <label htmlFor="dateReceived">Method of Obtaining</label>
+        <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
 
-        <Form.Select id="source" name="source"
-          style={{ width: "100%", backgroundColor: "black", color: "white" }}
+
+        <Form.Select
+          id="source"
+          name="source"
+          className="mb-2"
         >
           {sources.map((source) => {
             return <option key={source}>{source}</option>;
           })}
         </Form.Select>
 
+        <Form.Label className="mb-0">Select a broadcast:</Form.Label>
         <BroadcastImagePicker
           broadcasts={currentBroadcasts}
           hasBroadcasts={true}
           isForm={true}
         />
 
-        <p style={{ fontWeight: "bold" }}>Optional Information:</p>
+        <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
 
-        <p>
-          <label htmlFor="count">Clue Count</label>
-          <input
-            id="count"
-            type="number"
-            name="clueCount"
-            placeholder="If unknown, leave blank."
-          />
-        </p>
+        <div className="optionalButtons">
+          <Form.Group className="mb-3" controlId="clueCount">
+            <Form.Label>Clue Count:</Form.Label>
+            <Form.Control
+              type="number"
+              name="clueCount"
+              placeholder="If unknown, leave blank."
+            />
+          </Form.Group>
 
-        <p>
-          <label htmlFor="dateReceived">Date Received</label>
-          <input id="dateReceived" type="date" name="dateReceived" defaultValue={undefined} />
-        </p>
-
-        <Button variant="primary" type="submit">
-          Add Broadcast
-        </Button>
-      </form>
+          <Form.Group className="mb-3" controlId="dateReceived">
+            <Form.Label>Date Received:</Form.Label>
+            <Form.Control
+              type="date"
+              name="dateReceived"
+              defaultValue={null}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="submitButton">
+            Add Broadcast
+          </Button>
+        </div>
+      </Form>
     </>
   );
 }

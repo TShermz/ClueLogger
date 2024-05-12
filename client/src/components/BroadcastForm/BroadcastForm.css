@@ -1,0 +1,67 @@
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  border: black solid 3px;
+  border-bottom: none;
+}
+
+.modal-body,
+.modal-header {
+  background-color: rgba(177, 171, 161, 0.858);
+  /* border: black solid 3px; */
+}
+.modal-body {
+  border-top: none;
+  border: black solid 3px;
+  border-bottom-left-radius: .33rem;
+  border-bottom-right-radius:.33rem;
+}
+
+.form {
+  padding: 1rem;
+}
+
+.form label,
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  color: black;
+}
+
+.form input,
+.form textarea {
+  font: inherit;
+  padding: 0.25rem;
+  background-color: white;
+  color: black;
+}
+
+.form-select {
+  background-color: white;
+  color: black;
+}
+
+input {
+  color: white;
+  width: 50%
+}
+
+.btn-group {
+  width: 100%;
+}
+
+.optionalButtons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: space-between;
+  gap: 3rem;
+}
+
+.submitButton {
+  background-color: rgb(19, 118, 180);
+  border: black solid 1px;
+  width: 33%;
+  height: 5rem;
+}

@@ -51,18 +51,11 @@ function MainNavigation() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               {data.isAuthenticated && (
-                // <Nav.Link as={Link} to="/mylog">
-                //   My Log
-                // </Nav.Link>
                 <NavDropdown title="My Clues" id="basic-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/mybroadcasts/add">
-                    Add Broadcasts
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
                   <NavDropdown.Item as={Link} to="/mybroadcasts">
                     My Broadcasts
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/mylog">
+                  <NavDropdown.Item as={Link} to="/mylogs">
                     My Logs
                   </NavDropdown.Item>
                 </NavDropdown>

@@ -5,28 +5,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getLog } from "../../util/log.js";
-import { clueLogActions } from "../../store/slices/clueLogSlice.js";
+
+import { myLogsActions } from "../../store/slices/myLogsSlice.js";
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
+
 import Modal from "react-bootstrap/Modal";
-import BroadcastForm from "../Broadcasts/BroadcastForm.jsx";
+import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
 import ClueItemArray from "./ClueItemArray.jsx";
-import ClueLogButtons from "./ClueLogButtons.jsx";
+import FilterTierButtons from "../UI/FilterTierButtons"
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 const filterNames = ["general", "easy", "medium", "hard", "elite", "master"];
 
-const displayFilterButtons = [
-  "General",
-  "Easy",
-  "Medium",
-  "Hard",
-  "Elite",
-  "Master",
-];
-
 export default function ClueLog() {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
-  const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
+  const selectedLog = useSelector((state) => state.myLogs.currentLogFilter);
 
   const hasBroadcasts =
     (selectedLog === "hard") |
@@ -39,12 +33,12 @@ export default function ClueLog() {
   });
 
   function handleEditing() {
-    dispatch(clueLogActions.toggleEdit());
+    dispatch(myLogsActions.toggleEdit());
   }
 
   const handleCloseModal = () => {
     setShowModal(false);
-    dispatch(clueLogActions.resetBroadcastForm());
+    dispatch(broadcastFormActions.resetBroadcastForm());
   };
   const handleShowModal = () => {
     setShowModal(true);
@@ -78,7 +72,7 @@ export default function ClueLog() {
 
     content = (
       <>
-        <ClueLogButtons
+        <FilterTierButtons
           className="tier-filter"
           buttons={filterNames}
           filterType="log"

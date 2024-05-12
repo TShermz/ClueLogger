@@ -1,24 +1,22 @@
-import "./ClueLogButtons.css";
+import "./FilterTierButtons.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 
-import { clueLogActions } from "../../store/slices/clueLogSlice";
+import { myLogsActions } from "../../store/slices/myLogsSlice";
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
+import { myBroadcastsActions } from "../../store/slices/myBroadcastsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function ClueLogButtons({ className, buttons, filterType }) {
+export default function filterTierButtons({ className, buttons, filterType }) {
   const dispatch = useDispatch();
   let currentFilterValue;
 
   if (filterType === "log") {
-    currentFilterValue = useSelector(
-      (state) => state.clueLog.currentLogFilter
-    );
+    currentFilterValue = useSelector((state) => state.myLogs.currentLogFilter);
   } else if (filterType === "broadcast") {
-    currentFilterValue = useSelector(
-      (state) => state.clueLog.currentLogFilter
-    );
+    currentFilterValue = useSelector((state) => state.myBroadcasts.currentLogFilter);
   } else if (filterType === "broadcastForm") {
     currentFilterValue = useSelector(
-      (state) => state.clueLog.currentBroadcastFormFilter
+      (state) => state.broadcastForm.currentBroadcastFormFilter
     );
   }
 
@@ -26,11 +24,11 @@ export default function ClueLogButtons({ className, buttons, filterType }) {
 
   function handleClick(filterValue, filterType) {
     if (filterType === "log") {
-      dispatch(clueLogActions.filterLog({ filterValue }));
-    } else if (filterType === "broadcast")  {
-      dispatch(clueLogActions.filterBroadcasts({ filterValue }));
+      dispatch(myLogsActions.filterLog({ filterValue }));
+    } else if (filterType === "broadcast") {
+      dispatch(myBroadcastsActions.filterBroadcasts({ filterValue }));
     } else if (filterType === "broadcastForm") {
-      dispatch(clueLogActions.filterBroadcastForm({ filterValue }));
+      dispatch(broadcastFormActions.filterBroadcastForm({ filterValue }));
     }
   }
 

@@ -1,4 +1,5 @@
 import express from "express";
+import 'dotenv/config';
 import bodyParser from "body-parser";
 import cors from "cors";
 import db from "./app/config/db.config.js";
@@ -19,12 +20,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use(cookieParser("secretkey"));
+app.use(cookieParser(process.env.SECRET_KEY));
 app.use(cors(corsOptions));
 
 app.use(
   session({
-    secret: "some secret",
+    secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({

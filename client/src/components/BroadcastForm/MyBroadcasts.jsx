@@ -1,5 +1,5 @@
 import './MyBroadcasts.css';
-import ClueLogButtons from "../Log/ClueLogButtons";
+import FilterTierButtons from "../UI/FilterTierButtons";
 import EnhancedTable from "../UI/Table";
 
 export default function MyBroadcasts() {
@@ -10,7 +10,7 @@ export default function MyBroadcasts() {
   ];
   return (
     <>
-      <ClueLogButtons className="tier-filter" buttons={filterNames} filterType="broadcast" />
+      <FilterTierButtons className="tier-filter" buttons={filterNames} filterType="broadcast" />
       <EnhancedTable />
     </>
   );

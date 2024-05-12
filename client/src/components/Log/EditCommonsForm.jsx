@@ -2,7 +2,7 @@ import "./ClueLog.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { clueLogActions } from "../../store/slices/clueLogSlice";
+import { myLogsActions } from "../../store/slices/myLogsSlice";
 import { updateCommons } from "../../util/log";
 
 import ClueItem from "./ClueItem";
@@ -26,7 +26,7 @@ export default function EditCommonsForm({ onSubmit }) {
   });
 
   function handleEditing() {
-    dispatch(clueLogActions.toggleEdit());
+    dispatch(myLogsActions.toggleEdit());
     navigate('/mylog');
   }
 
@@ -37,7 +37,7 @@ export default function EditCommonsForm({ onSubmit }) {
     const updatedCommons = Object.fromEntries(formData);
     
     mutate({updatedCommons, selectedLog});
-    dispatch(clueLogActions.toggleEdit());
+    dispatch(myLogsActions.toggleEdit());
     navigate('/mylog');
   }
 

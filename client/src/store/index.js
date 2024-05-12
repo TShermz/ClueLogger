@@ -1,9 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import clueLogSlice from "./slices/clueLogSlice.js";
+import myLogsSlice from "./slices/myLogsSlice.js";
+import broadcastFormSlice from "./slices/broadcastFormSlice.js";
+import myBroadcastsSlice from "./slices/myBroadcastsSlice.js"
 
 const store = configureStore({
-  reducer: { clueLog: clueLogSlice.reducer },
+  reducer: {
+    myLogs: myLogsSlice.reducer,
+    broadcastForm: broadcastFormSlice.reducer,
+    myBroadcasts: myBroadcastsSlice.reducer,
+  },
 });
 
 export default store;

@@ -2,7 +2,7 @@ import ClueItem from "./ClueItem";
 import { useSelector } from "react-redux";
 
 export default function ClueItemArray({ items, inputData, hasBroadcasts, isForm }) {
-  const selectedBroadcast = useSelector((state) => state.clueLog.selectedBroadcast);
+  const selectedBroadcast = useSelector((state) => state.broadcastForm.selectedBroadcast);
 
   return (
     <div className="clue-log">
