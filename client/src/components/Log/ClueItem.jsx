@@ -10,8 +10,7 @@ export default function ClueItem({ name, value, isBroadcasts, isForm }) {
 
   if (name === "createdAt" || name === "updatedAt") {
     return;
-  }
-
+  };
   const selectedLog = useSelector((state) => state.myLogs.currentLogFilter);
   const isEditing = useSelector((state) => state.myLogs.isEditing);
   const selectedBroadcast = useSelector((state) => state.broadcastForm.selectedBroadcast);

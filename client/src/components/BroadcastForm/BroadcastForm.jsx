@@ -1,5 +1,5 @@
 import "./BroadcastForm.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 
@@ -11,6 +11,7 @@ import {
   eliteBroadcasts,
   masterBroadcasts,
 } from "../../util/constants";
+import { myLogsActions } from "../../store/slices/myLogsSlice";
 
 import { addBroadcast } from "../../util/broadcasts";
 import { queryClient } from "../../util/http";
@@ -25,10 +26,12 @@ const sources = [
   "Wilderness Flash Event",
 ];
 
-export default function BroadcastForm({ handleClose }) {
+export default function BroadcastForm({ handleClose}) {
+  const dispatch = useDispatch();
   const selectedLog = useSelector(
     (state) => state.broadcastForm.currentBroadcastFormFilter
   );
+
   const selectedBroadcast = useSelector(
     (state) => state.broadcastForm.selectedBroadcast
   );
@@ -36,7 +39,8 @@ export default function BroadcastForm({ handleClose }) {
   const { mutate } = useMutation({
     mutationFn: addBroadcast,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mylog"] });
+      queryClient.invalidateQueries({ queryKey: ["myBroadcasts"] });
+      dispatch(myLogsActions.filterLog({filterValue: selectedLog}));
       handleClose();
     },
   });

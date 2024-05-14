@@ -1,24 +1,5 @@
-// import { generalTemplate } from "../templates/logs/general.js";
-// import { easyTemplate } from "../templates/logs/easy.js";
-// import { mediumTemplate } from "../templates/logs/medium.js";
-// import { hardTemplate } from "../templates/logs/hard.js";
-// import { eliteTemplate } from "../templates/logs/elite.js";
-// import { masterTemplate } from "../templates/logs/master.js";
-
-import {useParams} from 'react-router-dom';
-import { useSelector } from "react-redux";
-
-// export const templateArray = [
-//   { name: "general", template: generalTemplate },
-//   { name: "easy", template: easyTemplate },
-//   { name: "medium", template: mediumTemplate },
-//   { name: "hard", template: hardTemplate },
-//   { name: "elite", template: eliteTemplate },
-//   { name: "master", template: masterTemplate },
-// ];
-
-export async function getLog({signal, selectedLogName}) {
-  const response = await fetch(`http://localhost:8080/mylog/${selectedLogName}`, {
+export async function getCommons({selectedLogName}) {
+  const response = await fetch(`http://localhost:8080/commons/${selectedLogName}`, {
     method: "GET",
     headers: {
       "mode": "no-cors"
@@ -33,9 +14,9 @@ export async function getLog({signal, selectedLogName}) {
     });
   }
   
-  const log = await response.json();
+  const commons = await response.json();
 
-  return log;
+  return commons;
 }
 
 export async function updateCommons (data) {

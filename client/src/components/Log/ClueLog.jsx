@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getLog } from "../../util/log.js";
+import { getCommons } from "../../util/log.js";
+import { getBroadcasts } from "../../util/broadcasts.js";
 
 import { myLogsActions } from "../../store/slices/myLogsSlice.js";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
@@ -12,7 +13,7 @@ import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
 import Modal from "react-bootstrap/Modal";
 import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
 import ClueItemArray from "./ClueItemArray.jsx";
-import FilterTierButtons from "../UI/FilterTierButtons"
+import FilterTierButtons from "../UI/FilterTierButtons";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 const filterNames = ["general", "easy", "medium", "hard", "elite", "master"];
@@ -27,9 +28,25 @@ export default function ClueLog() {
     (selectedLog === "elite") |
     (selectedLog === "master");
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["mylog", selectedLog],
-    queryFn: ({ signal }) => getLog({ signal, selectedLogName: selectedLog }),
+  const {
+    data: commonsData,
+    isLoading: commonsIsLoading,
+    isError: commonsIsError,
+    error: commonsError,
+  } = useQuery({
+    queryKey: ["myCommons", selectedLog],
+    queryFn: ({ signal }) =>
+      getCommons({ signal, selectedLogName: selectedLog }),
+  });
+
+  const {
+    data: broadcastsData,
+    isLoading: broadcastsIsLoading,
+    isError: broadcastsIsError,
+    error: broadcastsError,
+  } = useQuery({
+    queryKey: ["myBroadcasts", selectedLog],
+    queryFn: () => getBroadcasts({ selectedLogName: selectedLog }),
   });
 
   function handleEditing() {
@@ -41,12 +58,13 @@ export default function ClueLog() {
     dispatch(broadcastFormActions.resetBroadcastForm());
   };
   const handleShowModal = () => {
+    dispatch(broadcastFormActions.filterBroadcastForm({filterValue: selectedLog}));
     setShowModal(true);
   };
 
   let content, commons, broadcasts;
 
-  if (isLoading) {
+  if (commonsIsLoading || broadcastsIsLoading) {
     content = (
       <div>
         <p>Loading...</p>
@@ -54,7 +72,7 @@ export default function ClueLog() {
     );
   }
 
-  if (isError) {
+  if (commonsIsError || broadcastsIsError) {
     content = (
       <div>
         <ErrorBlock
@@ -65,10 +83,10 @@ export default function ClueLog() {
     );
   }
 
-  if (data) {
-    broadcasts = data.broadcasts;
-    commons = data.commons;
+  if (commonsData) {
     const editLink = `/commons/${selectedLog}/edit`;
+    commons = commonsData.commons;
+    broadcasts = broadcastsData?.broadcasts;
 
     content = (
       <>
@@ -78,7 +96,7 @@ export default function ClueLog() {
           filterType="log"
         />
         {/* Broadcasts Section */}
-        {hasBroadcasts ? (
+        {hasBroadcasts && broadcasts !== undefined ? (
           <>
             <div className="logButtons">
               <h3>Broadcasts</h3>
@@ -97,7 +115,7 @@ export default function ClueLog() {
             </Button>
           </Link>
         </div>
-        
+
         <ClueItemArray items={commons} />
 
         <Modal size="lg" show={showModal} onClose={handleCloseModal}>
@@ -109,7 +127,7 @@ export default function ClueLog() {
           </Modal.Header>
 
           <Modal.Body>
-            <BroadcastForm handleClose={handleCloseModal}/>
+            <BroadcastForm handleClose={handleCloseModal} currentFilterValue={selectedLog}/>
           </Modal.Body>
         </Modal>
       </>

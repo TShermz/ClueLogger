@@ -3,7 +3,7 @@ import EditCommonsForm from "../components/Log/EditCommonsForm";
 import { useSelector } from "react-redux";
 
 export default function EditCommonsPage () {
-    const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
+    const selectedLog = useSelector((state) => state.myLogs.currentLogFilter);
     const capitalizedLogName = selectedLog.charAt(0).toUpperCase() + selectedLog.slice(1);
     const title = `Edit Commons (${capitalizedLogName}s)`;
 

@@ -18,6 +18,7 @@ export default function filterTierButtons({ className, buttons, filterType }) {
     currentFilterValue = useSelector(
       (state) => state.broadcastForm.currentBroadcastFormFilter
     );
+    broadcastFormActions.filterBroadcastForm(currentFilterValue);
   }
 
   const classes = `${className} btn-group`;
@@ -31,7 +32,7 @@ export default function filterTierButtons({ className, buttons, filterType }) {
       dispatch(broadcastFormActions.filterBroadcastForm({ filterValue }));
     }
   }
-
+  
   return (
     <ButtonGroup aria-label="Basic example" className={classes}>
       {buttons.map((buttonLabel) => {

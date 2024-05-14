@@ -10,6 +10,7 @@ const broadcastFormSlice = createSlice({
   initialState: initialCounterState,
   reducers: {
     filterBroadcastForm(state, action){
+      console.log('action.payload.filterValue');
       state.currentBroadcastFormFilter = action.payload.filterValue;
       state.selectedBroadcast = undefined;
     },

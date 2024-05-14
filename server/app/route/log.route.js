@@ -1,14 +1,16 @@
 import logController from '../controller/logController.js';
+import broadcastController from '../controller/broadcastController.js';
 
-const { getLog, updateCommons, getBroadcasts, addBroadcast, getBroadcastById } = logController;
+const { getCommons, updateCommons } = logController;
+const {getBroadcasts, addBroadcast, getBroadcastById} = broadcastController;
 
 export default (app) => {
 
-    app.get('/mylog/:logName', getLog);
+    app.get('/commons/:logName', getCommons);
 
     app.put('/commons/:logName/edit', updateCommons);
 
-    app.get('/broadcasts', getBroadcasts)
+    app.get('/broadcasts/:logName', getBroadcasts)
 
     app.post('/broadcast/add', addBroadcast);
 

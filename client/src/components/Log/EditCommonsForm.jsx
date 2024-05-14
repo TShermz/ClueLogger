@@ -3,31 +3,31 @@ import { useSelector, useDispatch } from "react-redux";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { myLogsActions } from "../../store/slices/myLogsSlice";
-import { updateCommons } from "../../util/log";
+import { getCommons, updateCommons } from "../../util/log";
 
 import ClueItem from "./ClueItem";
 import ErrorBlock from "../UI/ErrorBlock";
 
-export default function EditCommonsForm({ onSubmit }) {
+export default function EditCommonsForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const selectedLog = useSelector((state) => state.clueLog.currentLogFilter);
+  const selectedLog = useSelector((state) => state.myLogs.currentLogFilter);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["mylog", selectedLog],
-    queryFn: ({ signal }) => getLog({ signal, selectedLogName: selectedLog }),
+    queryKey: ["myCommons", selectedLog],
+    queryFn: ({ signal }) => getCommons({ signal, selectedLogName: selectedLog }),
   });
 
   const { mutate } = useMutation({
     mutationFn: updateCommons,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["mylog", selectedLog] });
+      queryClient.invalidateQueries({ queryKey: ["myCommons", selectedLog] });
     },
   });
 
   function handleEditing() {
     dispatch(myLogsActions.toggleEdit());
-    navigate('/mylog');
+    navigate('/mylogs');
   }
 
   function handleSubmit(event) {
@@ -38,7 +38,7 @@ export default function EditCommonsForm({ onSubmit }) {
     
     mutate({updatedCommons, selectedLog});
     dispatch(myLogsActions.toggleEdit());
-    navigate('/mylog');
+    navigate('/mylogs');
   }
 
   let content, commons, broadcasts;
