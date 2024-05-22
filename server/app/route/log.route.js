@@ -2,7 +2,7 @@ import logController from '../controller/logController.js';
 import broadcastController from '../controller/broadcastController.js';
 
 const { getCommons, updateCommons } = logController;
-const {getBroadcasts, addBroadcast, getBroadcastById} = broadcastController;
+const {getBroadcasts, addBroadcast, getBroadcastById, getDetailedBroadcasts} = broadcastController;
 
 export default (app) => {
 
@@ -11,6 +11,8 @@ export default (app) => {
     app.put('/commons/:logName/edit', updateCommons);
 
     app.get('/broadcasts/:logName', getBroadcasts)
+    
+    app.get('/detailedbroadcasts/:logName/:username', getDetailedBroadcasts)
 
     app.post('/broadcast/add', addBroadcast);
 

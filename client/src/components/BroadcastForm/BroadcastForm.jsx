@@ -2,8 +2,12 @@ import "./BroadcastForm.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
-import FilterTierButtons from "../UI/FilterTierButtons"
+import FilterTierButtons from "../UI/FilterTierButtons";
 import ErrorBlock from "../UI/ErrorBlock";
 import BroadcastImagePicker from "./BroadcastImagePicker";
 import {
@@ -26,7 +30,9 @@ const sources = [
   "Wilderness Flash Event",
 ];
 
-export default function BroadcastForm({ handleClose}) {
+const testText = "text";
+
+export default function BroadcastForm({ handleClose }) {
   const dispatch = useDispatch();
   const selectedLog = useSelector(
     (state) => state.broadcastForm.currentBroadcastFormFilter
@@ -40,7 +46,7 @@ export default function BroadcastForm({ handleClose}) {
     mutationFn: addBroadcast,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myBroadcasts"] });
-      dispatch(myLogsActions.filterLog({filterValue: selectedLog}));
+      dispatch(myLogsActions.filterLog({ filterValue: selectedLog }));
       handleClose();
     },
   });
@@ -94,20 +100,42 @@ export default function BroadcastForm({ handleClose}) {
       <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
         <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
 
-        <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
+        <div className="requiredInputs">
+          <Form.Group className="" controlId="method">
+            <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
+            <Form.Select id="source" name="source" className="">
+              {sources.map((source) => {
+                return <option key={source}>{source}</option>;
+              })}
+            </Form.Select>
+          </Form.Group>
 
+          <Form.Group className="" controlId="broadcastCount">
+            <Form.Label className="mb-2 broadcastCountLabel">
+              Broadcast Count:{" "}
+              <OverlayTrigger
+                key={testText}
+                placement="top"
+                overlay={
+                  <Tooltip id="tooltip-top">
+                    Enter "6" if this was your 6th Orlando Smiths
+                    Hat
+                  </Tooltip>
+                }
+              >
+                <ErrorOutlineOutlinedIcon fontSize="small" />
+              </OverlayTrigger>
+            </Form.Label>
+            <Form.Control
+              type="number"
+              name="broadcastCount"
+              defaultValue={null}
+              required
+            />
+          </Form.Group>
+        </div>
 
-        <Form.Select
-          id="source"
-          name="source"
-          className="mb-2"
-        >
-          {sources.map((source) => {
-            return <option key={source}>{source}</option>;
-          })}
-        </Form.Select>
-
-        <Form.Label className="mb-0">Select a broadcast:</Form.Label>
+        <Form.Label className="mt-2 mb-0">Select a broadcast:</Form.Label>
         <BroadcastImagePicker
           broadcasts={currentBroadcasts}
           hasBroadcasts={true}
@@ -116,7 +144,7 @@ export default function BroadcastForm({ handleClose}) {
 
         <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
 
-        <div className="optionalButtons">
+        <div className="optionalInputs">
           <Form.Group className="mb-3" controlId="clueCount">
             <Form.Label>Clue Count:</Form.Label>
             <Form.Control
@@ -128,11 +156,7 @@ export default function BroadcastForm({ handleClose}) {
 
           <Form.Group className="mb-3" controlId="dateReceived">
             <Form.Label>Date Received:</Form.Label>
-            <Form.Control
-              type="date"
-              name="dateReceived"
-              defaultValue={null}
-            />
+            <Form.Control type="date" name="dateReceived" defaultValue={null} />
           </Form.Group>
           <Button variant="primary" type="submit" className="submitButton">
             Add Broadcast

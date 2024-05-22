@@ -110,4 +110,20 @@ async function updateBroadcastLog(
   }
 }
 
-export default { getBroadcasts, addBroadcast, getBroadcastById };
+async function getDetailedBroadcasts(req,res) {
+  let user, detailedBroadcasts;
+  let username = req.params.username;
+
+  try {
+    user = await User.findOne({where: {username: username}})
+    detailedBroadcasts = await BroadcastEntry.findAll({where: {userId: user.id}})
+  } catch (error) {
+    console.log(error);
+  }
+
+  console.log('+++++++++++++++++++++++'+ detailedBroadcasts);
+
+  return res.status(200).json(detailedBroadcasts);
+}
+
+export default { getBroadcasts, addBroadcast, getBroadcastById, getDetailedBroadcasts };

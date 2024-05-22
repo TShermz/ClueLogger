@@ -21,14 +21,6 @@
   padding: 1rem;
 }
 
-.form label,
-.form input,
-.form textarea {
-  display: block;
-  width: 100%;
-  color: black;
-}
-
 .form input,
 .form textarea {
   font: inherit;
@@ -42,20 +34,33 @@
   color: black;
 }
 
-input {
-  color: white;
-  width: 50%
-}
-
 .btn-group {
   width: 100%;
 }
 
-.optionalButtons {
+.requiredInputs {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items:center; 
+  gap: 2rem;
+}
+
+#broadcastCount {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  width: 100%;
+}
+
+.broadcastCountLabel {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.optionalInputs {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  align-items: space-between;
   gap: 3rem;
 }
 

@@ -41,3 +41,24 @@ export async function addBroadcast(data) {
   const message = await response.json();
   return message;
 }
+
+export async function getDetailedBroadcasts({selectedLogName, username}) {
+  const response = await fetch(`http://localhost:8080/detailedbroadcasts/${selectedLogName}/${username}`, {
+    method: "GET",
+    headers: {
+      "mode": "no-cors"
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw json({
+      message: "Could not retrieve detailed broadcasts.",
+      status: 500,
+    });
+  }
+  
+  const detailedBroadcasts = await response.json();
+
+  return detailedBroadcasts;
+}

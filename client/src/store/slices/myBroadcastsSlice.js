@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialCounterState = {
-  myBroadcastsFilter: "hard",
+  myBroadcastsFilter: "all",
 };
 const myBroadcastsSlice = createSlice({
   name: "myBroadcasts",
   initialState: initialCounterState,
   reducers: {
     filterBroadcasts(state, action) {
-      state.currentBroadcastFilter = action.payload.filterValue;
+      state.myBroadcastsFilter = action.payload.filterValue;
     },
   },
 });

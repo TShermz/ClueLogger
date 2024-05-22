@@ -80,40 +80,40 @@ function BroadcastLog(sequelize, Sequelize) {
     Third_age_druidic_robe_bottom: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_full_helm': {
+    Second_age_full_helm: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_platebody': {
+    Second_age_platebody: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_platelegs': {
+    Second_age_platelegs: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_sword': {
+    Second_age_sword: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_mage_mask': {
+    Second_age_mage_mask: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_robe_top': {
+    Second_age_robe_top: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_robe_bottom': {
+    Second_age_robe_bottom: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_staff': {
+    Second_age_staff: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_range_coif': {
+    Second_age_range_coif: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_range_top': {
+    Second_age_range_top: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_range_legs': {
+    Second_age_range_legs: {
       type: Sequelize.INTEGER,
     },
-    'Second-Age_bow': {
+    Second_age_bow: {
       type: Sequelize.INTEGER,
     },
     Orlando_Smiths_hat: {

@@ -12,8 +12,8 @@ export default function filterTierButtons({ className, buttons, filterType }) {
 
   if (filterType === "log") {
     currentFilterValue = useSelector((state) => state.myLogs.currentLogFilter);
-  } else if (filterType === "broadcast") {
-    currentFilterValue = useSelector((state) => state.myBroadcasts.currentLogFilter);
+  } else if (filterType === "myBroadcasts") {
+    currentFilterValue = useSelector((state) => state.myBroadcasts.myBroadcastsFilter);
   } else if (filterType === "broadcastForm") {
     currentFilterValue = useSelector(
       (state) => state.broadcastForm.currentBroadcastFormFilter
@@ -26,7 +26,7 @@ export default function filterTierButtons({ className, buttons, filterType }) {
   function handleClick(filterValue, filterType) {
     if (filterType === "log") {
       dispatch(myLogsActions.filterLog({ filterValue }));
-    } else if (filterType === "broadcast") {
+    } else if (filterType === "myBroadcasts") {
       dispatch(myBroadcastsActions.filterBroadcasts({ filterValue }));
     } else if (filterType === "broadcastForm") {
       dispatch(broadcastFormActions.filterBroadcastForm({ filterValue }));

@@ -11,6 +11,9 @@ function BroadcastEntry(sequelize, Sequelize) {
     clueTier: {
       type: Sequelize.STRING,
     },
+    broadcastCount: {
+      type: Sequelize.STRING,
+    },
     clueCount: {
       type: Sequelize.INTEGER,
     },

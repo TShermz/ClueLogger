@@ -1,0 +1,12 @@
+.headCell {
+    font-weight: bold;
+}
+.broadcast-image-col {
+    display: flex;
+    justify-content: center;
+    margin-left: 2rem;
+}
+.broadcast-image {
+  width: auto;
+  height: auto;
+}
