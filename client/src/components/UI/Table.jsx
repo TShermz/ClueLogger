@@ -1,4 +1,4 @@
-import './Table.css';
+import "./Table.css";
 import * as React from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -93,12 +93,7 @@ function stableSort(array, comparator) {
 }
 
 function EnhancedTableHead(props) {
-  const {
-    order,
-    orderBy,
-    onRequestSort,
-    headCells,
-  } = props;
+  const { order, orderBy, onRequestSort, headCells } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -110,9 +105,7 @@ function EnhancedTableHead(props) {
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
-            classes={"headCell"}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -133,80 +126,12 @@ function EnhancedTableHead(props) {
   );
 }
 
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutritionasf
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-}
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 export default function EnhancedTable({ headCells, detailedBroadcasts }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("clueCount");
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
-  console.log(detailedBroadcasts);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -223,12 +148,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
     setPage(0);
   };
 
-  // const handleChangeDense = (event) => {
-  //   setDense(event.target.checked);
-  // };
-
-  const isSelected = (id) => selected.indexOf(id) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0
@@ -241,13 +160,22 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, detailedBroadcasts]
   );
+  console.log(detailedBroadcasts);
 
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+        <TablePagination
+          rowsPerPageOptions={[25, 50, 100]}
+          component="div"
+          count={detailedBroadcasts.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -255,7 +183,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
             size="small"
           >
             <EnhancedTableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
@@ -265,12 +192,10 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
             <TableBody>
               {visibleRows.map((row, index) => {
                 const options = {
-                  // weekday: 'long',
                   year: "numeric",
                   month: "numeric",
                   day: "numeric",
                 };
-                const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 const broadcastImg = `/hidden/broadcast/${row.broadcastName}.png`;
                 const casketImg = `/hidden/other/Reward_casket_(${row.clueTier}).png`;
@@ -280,18 +205,35 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                       undefined,
                       options
                     )
-                  : "N/A";
+                  : "Unknown";
 
                 return (
                   <TableRow
                     hover
                     role="checkbox"
-                    aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.broadcastLogId}
-                    selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
+                    <TableCell align="center">
+                      <button>Edit</button>
+                    </TableCell>
+                    <TableCell align="center">
+                      <img src={casketImg} alt="Casket of Broadcast" />
+                    </TableCell>
+                    <TableCell className="broadcast-image-col" align="center">
+                      <img
+                        src={broadcastImg}
+                        alt="Image of Broadcast"
+                        align="center"
+                        className="broadcast-image"
+                      />
+                    </TableCell>
+                    <TableCell>{displayName}</TableCell>
+                    <TableCell align="right">#{row.broadcastCount}</TableCell>
+                    <TableCell align="right">
+                      {row.clueCount === "" ? "Unknown" : row.clueCount}
+                    </TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
@@ -299,18 +241,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                       padding="normal"
                     >
                       {displayDate}
-                    </TableCell>
-                    <TableCell>
-                      <img src={casketImg} alt="Casket of Broadcast" />
-                    </TableCell>
-                    <TableCell className='broadcast-image-col'>
-                      <img src={broadcastImg} alt="Image of Broadcast" align="center" className="broadcast-image"/>
-                    </TableCell>
-                    <TableCell>{displayName}</TableCell>
-                    <TableCell align="right">#{row.broadcastCount}</TableCell>
-                    <TableCell align="right">{row.clueCount}</TableCell>
-                    <TableCell align="right">
-                      <button>Edit</button>
                     </TableCell>
                   </TableRow>
                 );
@@ -337,10 +267,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
     </Box>
   );
 }

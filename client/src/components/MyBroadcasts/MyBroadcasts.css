@@ -1,3 +1,7 @@
+.tier-filter {
+    margin-bottom: 1rem;
+}
+
 .MuiTableContainer-root, .MuiToolbar-root{
     background-color: rgb(139, 145, 161);
     border: black solid 1px;

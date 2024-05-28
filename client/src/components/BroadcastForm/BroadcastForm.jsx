@@ -4,7 +4,6 @@ import { Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
 import FilterTierButtons from "../UI/FilterTierButtons";
@@ -45,7 +44,7 @@ export default function BroadcastForm({ handleClose }) {
   const { mutate } = useMutation({
     mutationFn: addBroadcast,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["myBroadcasts"] });
+      queryClient.invalidateQueries({ queryKey: ['myBroadcasts'], refetchType: "all" });
       dispatch(myLogsActions.filterLog({ filterValue: selectedLog }));
       handleClose();
     },

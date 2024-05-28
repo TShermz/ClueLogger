@@ -12,7 +12,7 @@ function BroadcastEntry(sequelize, Sequelize) {
       type: Sequelize.STRING,
     },
     broadcastCount: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
     },
     clueCount: {
       type: Sequelize.INTEGER,

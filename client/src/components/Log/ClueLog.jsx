@@ -58,7 +58,9 @@ export default function ClueLog() {
     dispatch(broadcastFormActions.resetBroadcastForm());
   };
   const handleShowModal = () => {
-    dispatch(broadcastFormActions.filterBroadcastForm({filterValue: selectedLog}));
+    dispatch(
+      broadcastFormActions.filterBroadcastForm({ filterValue: selectedLog })
+    );
     setShowModal(true);
   };
 
@@ -105,7 +107,6 @@ export default function ClueLog() {
             <ClueItemArray items={broadcasts} hasBroadcasts />
           </>
         ) : null}
-
         {/* Commons Section */}
         <div className="logButtons">
           <h3>Commons</h3>
@@ -115,9 +116,7 @@ export default function ClueLog() {
             </Button>
           </Link>
         </div>
-
         <ClueItemArray items={commons} />
-
         <Modal size="lg" show={showModal} onClose={handleCloseModal}>
           <Modal.Header>
             <Modal.Title>Add Broadcast</Modal.Title>
@@ -127,7 +126,10 @@ export default function ClueLog() {
           </Modal.Header>
 
           <Modal.Body>
-            <BroadcastForm handleClose={handleCloseModal} currentFilterValue={selectedLog}/>
+            <BroadcastForm
+              handleClose={handleCloseModal}
+              currentFilterValue={selectedLog}
+            />
           </Modal.Body>
         </Modal>
       </>

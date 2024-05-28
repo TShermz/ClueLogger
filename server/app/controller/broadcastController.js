@@ -113,16 +113,17 @@ async function updateBroadcastLog(
 async function getDetailedBroadcasts(req,res) {
   let user, detailedBroadcasts;
   let username = req.params.username;
+  let selectedLog = req.params.logName;
 
   try {
     user = await User.findOne({where: {username: username}})
-    detailedBroadcasts = await BroadcastEntry.findAll({where: {userId: user.id}})
+    detailedBroadcasts = selectedLog === 'all' 
+      ? await BroadcastEntry.findAll({where: {userId: user.id}})
+      : await BroadcastEntry.findAll({where: {userId: user.id, clueTier: selectedLog}})
   } catch (error) {
     console.log(error);
   }
-
-  console.log('+++++++++++++++++++++++'+ detailedBroadcasts);
-
+  
   return res.status(200).json(detailedBroadcasts);
 }
 

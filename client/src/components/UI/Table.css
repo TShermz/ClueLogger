@@ -1,11 +1,18 @@
-.headCell {
-    font-weight: bold;
+.MuiTable-root {
+  background-color: rgb(177, 175, 175);
+  border: black;
 }
-.broadcast-image-col {
-    display: flex;
-    justify-content: center;
-    margin-left: 2rem;
+
+.MuiToolbar-root, .MuiTableHead-root {
+  background-color: rgb(146, 144, 144);
+  /* border: black; */
+  font-weight: bold;
 }
+
+tr,td {
+  border-width: 2px;
+}
+
 .broadcast-image {
   width: auto;
   height: auto;

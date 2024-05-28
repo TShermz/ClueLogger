@@ -5,56 +5,14 @@ import FilterTierButtons from "../UI/FilterTierButtons";
 import EnhancedTable from "../UI/Table";
 import { getSession } from "../../util/auth";
 import { getDetailedBroadcasts } from "../../util/broadcasts";
+import { MyBroadcastsTableHeaders } from "../../util/constants";
 
 const filterNames = ["all", "hard", "elite", "master"];
 
-const tableHeaders = [
-  {
-    id: "dateReceived",
-    numeric: false,
-    disablePadding: false,
-    label: "Date Received",
-  },
-  {
-    id: "tier",
-    numeric: false,
-    disablePadding: false,
-    label: "Tier",
-  },
-  {
-    id: "image",
-    numeric: false,
-    disablePadding: true,
-    label: ""
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: false,
-    label: "Name",
-  },
-  {
-    id: "broadcastCount",
-    numeric: true,
-    disablePadding: true,
-    label: "Broadcast #",
-  },
-  {
-    id: "clueCount",
-    numeric: true,
-    disablePadding: false,
-    label: "Clue #",
-  },
-  {
-    id: "buttons",
-    numeric: true,
-    disablePadding: false,
-    label: "",
-  },
-];
-
 export default function MyBroadcasts() {
-  const selectedLog = useSelector((state) => state.myBroadcasts.myBroadcastsFilter);
+  const selectedLog = useSelector(
+    (state) => state.myBroadcasts.myBroadcastsFilter
+  );
 
   const {
     data: sessionData,
@@ -67,13 +25,17 @@ export default function MyBroadcasts() {
   });
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["detailedBroadcasts", selectedLog, sessionData.username],
-    queryFn: () => getDetailedBroadcasts({ selectedLogName: selectedLog, username: sessionData.username }),
+    queryKey: ["myBroadcasts", sessionData.username, selectedLog],
+    queryFn: () =>
+      getDetailedBroadcasts({
+        selectedLogName: selectedLog,
+        username: sessionData.username,
+      }),
   });
 
   let content;
 
-  if(isLoading) {
+  if (isLoading) {
     content = (
       <div>
         <p>Loading...</p>
@@ -81,7 +43,7 @@ export default function MyBroadcasts() {
     );
   }
 
-  if(isError){
+  if (isError) {
     content = (
       <div>
         <ErrorBlock
@@ -92,20 +54,22 @@ export default function MyBroadcasts() {
     );
   }
 
-  if(data){
+  if (data) {
     content = (
-      <EnhancedTable headCells={tableHeaders} detailedBroadcasts={data}/>
-    )
+      <>
+        {" "}
+        <FilterTierButtons
+          className="tier-filter"
+          buttons={filterNames}
+          filterType="myBroadcasts"
+        />
+        <EnhancedTable
+          headCells={MyBroadcastsTableHeaders}
+          detailedBroadcasts={data}
+        />
+      </>
+    );
   }
 
-  return (
-    <>
-      <FilterTierButtons
-        className="tier-filter"
-        buttons={filterNames}
-        filterType="myBroadcasts"
-      />
-      {content}
-    </>
-  );
+  return content;
 }
