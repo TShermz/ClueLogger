@@ -12,7 +12,6 @@ import FilterTierButtons from "../UI/FilterTierButtons";
 import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
-import { myBroadcastsActions } from "../../store/slices/myBroadcastsSlice.js";
 
 const filterNames = ["general", "easy", "medium", "hard", "elite", "master"];
 
@@ -90,6 +89,7 @@ export default function ClueLog() {
           buttons={filterNames}
           filterType="log"
         />
+        
         {/* Broadcasts Section */}
         {hasBroadcasts && broadcasts !== undefined ? (
           <>
@@ -100,6 +100,7 @@ export default function ClueLog() {
             <ClueItemArray items={broadcasts} hasBroadcasts />
           </>
         ) : null}
+
         {/* Commons Section */}
         <div className="logButtons">
           <h3>Commons</h3>

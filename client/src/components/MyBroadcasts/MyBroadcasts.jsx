@@ -1,15 +1,19 @@
 import "./MyBroadcasts.css";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FilterTierButtons from "../UI/FilterTierButtons";
 import EnhancedTable from "../UI/Table";
+import BroadcastForm from "../BroadcastForm/BroadcastForm";
+import { Button } from "react-bootstrap";
 import { getSession } from "../../util/auth";
 import { getDetailedBroadcasts } from "../../util/broadcasts";
 import { MyBroadcastsTableHeaders } from "../../util/constants";
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
 
 const filterNames = ["all", "hard", "elite", "master"];
 
 export default function MyBroadcasts() {
+  const dispatch = useDispatch();
   const selectedLog = useSelector(
     (state) => state.myBroadcasts.myBroadcastsFilter
   );
@@ -32,6 +36,13 @@ export default function MyBroadcasts() {
         username: sessionData.username,
       }),
   });
+
+  function handleShowModal() {
+    dispatch(
+      broadcastFormActions.filterBroadcastForm({ filterValue: selectedLog })
+    );
+    dispatch(broadcastFormActions.toggleModal());
+  };
 
   let content;
 
@@ -57,16 +68,19 @@ export default function MyBroadcasts() {
   if (data) {
     content = (
       <>
-        {" "}
         <FilterTierButtons
           className="tier-filter"
           buttons={filterNames}
           filterType="myBroadcasts"
         />
+                <Button id='add-broadcast' onClick={handleShowModal}>Add Broadcast</Button>
+
         <EnhancedTable
           headCells={MyBroadcastsTableHeaders}
           detailedBroadcasts={data}
         />
+        <BroadcastForm />
+
       </>
     );
   }
