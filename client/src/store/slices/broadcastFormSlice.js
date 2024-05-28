@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialCounterState = {
   currentBroadcastFilter: "hard",
   currentBroadcastFormFilter: "hard",
-  selectedBroadcast: undefined
+  selectedBroadcast: undefined,
+  showModal: false
 };
 const broadcastFormSlice = createSlice({
   name: "broadcastForm",
   initialState: initialCounterState,
   reducers: {
     filterBroadcastForm(state, action){
-      console.log('action.payload.filterValue');
       state.currentBroadcastFormFilter = action.payload.filterValue;
       state.selectedBroadcast = undefined;
     },
@@ -21,6 +21,9 @@ const broadcastFormSlice = createSlice({
       state.selectedBroadcast = undefined;
       state.currentBroadcastFormFilter = 'hard';
     },
+    toggleModal(state){
+      state.showModal = !state.showModal;
+    }
   },
 });
 

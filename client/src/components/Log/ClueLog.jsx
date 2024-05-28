@@ -1,5 +1,4 @@
 import "./ClueLog.css";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
@@ -8,18 +7,16 @@ import { getCommons } from "../../util/log.js";
 import { getBroadcasts } from "../../util/broadcasts.js";
 
 import { myLogsActions } from "../../store/slices/myLogsSlice.js";
-import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
-
-import Modal from "react-bootstrap/Modal";
-import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
 import ClueItemArray from "./ClueItemArray.jsx";
 import FilterTierButtons from "../UI/FilterTierButtons";
+import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
+import { myBroadcastsActions } from "../../store/slices/myBroadcastsSlice.js";
 
 const filterNames = ["general", "easy", "medium", "hard", "elite", "master"];
 
 export default function ClueLog() {
-  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const selectedLog = useSelector((state) => state.myLogs.currentLogFilter);
 
@@ -51,17 +48,13 @@ export default function ClueLog() {
 
   function handleEditing() {
     dispatch(myLogsActions.toggleEdit());
-  }
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    dispatch(broadcastFormActions.resetBroadcastForm());
   };
+
   const handleShowModal = () => {
     dispatch(
       broadcastFormActions.filterBroadcastForm({ filterValue: selectedLog })
     );
-    setShowModal(true);
+    dispatch(broadcastFormActions.toggleModal());
   };
 
   let content, commons, broadcasts;
@@ -117,21 +110,7 @@ export default function ClueLog() {
           </Link>
         </div>
         <ClueItemArray items={commons} />
-        <Modal size="lg" show={showModal} onClose={handleCloseModal}>
-          <Modal.Header>
-            <Modal.Title>Add Broadcast</Modal.Title>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Cancel
-            </Button>
-          </Modal.Header>
-
-          <Modal.Body>
-            <BroadcastForm
-              handleClose={handleCloseModal}
-              currentFilterValue={selectedLog}
-            />
-          </Modal.Body>
-        </Modal>
+        <BroadcastForm />
       </>
     );
   }

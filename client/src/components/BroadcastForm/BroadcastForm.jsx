@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { useMutation } from "@tanstack/react-query";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Modal from "react-bootstrap/Modal";
 import Tooltip from "react-bootstrap/Tooltip";
-import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import FilterTierButtons from "../UI/FilterTierButtons";
 import ErrorBlock from "../UI/ErrorBlock";
 import BroadcastImagePicker from "./BroadcastImagePicker";
@@ -14,8 +14,9 @@ import {
   eliteBroadcasts,
   masterBroadcasts,
 } from "../../util/constants";
-import { myLogsActions } from "../../store/slices/myLogsSlice";
 
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
+import { myLogsActions } from "../../store/slices/myLogsSlice";
 import { addBroadcast } from "../../util/broadcasts";
 import { queryClient } from "../../util/http";
 
@@ -32,6 +33,7 @@ const sources = [
 const testText = "text";
 
 export default function BroadcastForm({ handleClose }) {
+  // const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const selectedLog = useSelector(
     (state) => state.broadcastForm.currentBroadcastFormFilter
@@ -41,14 +43,25 @@ export default function BroadcastForm({ handleClose }) {
     (state) => state.broadcastForm.selectedBroadcast
   );
 
+  const showModal = useSelector((state) => state.broadcastForm.showModal);
+
   const { mutate } = useMutation({
     mutationFn: addBroadcast,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myBroadcasts'], refetchType: "all" });
+      queryClient.invalidateQueries({
+        queryKey: ["myBroadcasts"],
+        refetchType: "all",
+      });
       dispatch(myLogsActions.filterLog({ filterValue: selectedLog }));
       handleClose();
     },
   });
+
+  const handleCloseModal = () => {
+    dispatch(broadcastFormActions.toggleModal());
+    // setShowModal(false);
+    dispatch(broadcastFormActions.resetBroadcastForm());
+  };
 
   let currentBroadcasts, errorData;
 
@@ -81,6 +94,7 @@ export default function BroadcastForm({ handleClose }) {
     };
 
     mutate(allData);
+    dispatch(broadcastFormActions.toggleModal());
 
     // errorData = await onSubmit(data, mode);
   }
@@ -90,78 +104,92 @@ export default function BroadcastForm({ handleClose }) {
       {errorData && (
         <ErrorBlock title={errorData.title} message={errorData.message} />
       )}
-      <FilterTierButtons
-        className="tier-filter"
-        buttons={filterNames}
-        filterType="broadcastForm"
-      />
 
-      <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
-        <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
-
-        <div className="requiredInputs">
-          <Form.Group className="" controlId="method">
-            <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
-            <Form.Select id="source" name="source" className="">
-              {sources.map((source) => {
-                return <option key={source}>{source}</option>;
-              })}
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group className="" controlId="broadcastCount">
-            <Form.Label className="mb-2 broadcastCountLabel">
-              Broadcast Count:{" "}
-              <OverlayTrigger
-                key={testText}
-                placement="top"
-                overlay={
-                  <Tooltip id="tooltip-top">
-                    Enter "6" if this was your 6th Orlando Smiths
-                    Hat
-                  </Tooltip>
-                }
-              >
-                <ErrorOutlineOutlinedIcon fontSize="small" />
-              </OverlayTrigger>
-            </Form.Label>
-            <Form.Control
-              type="number"
-              name="broadcastCount"
-              defaultValue={null}
-              required
-            />
-          </Form.Group>
-        </div>
-
-        <Form.Label className="mt-2 mb-0">Select a broadcast:</Form.Label>
-        <BroadcastImagePicker
-          broadcasts={currentBroadcasts}
-          hasBroadcasts={true}
-          isForm={true}
-        />
-
-        <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
-
-        <div className="optionalInputs">
-          <Form.Group className="mb-3" controlId="clueCount">
-            <Form.Label>Clue Count:</Form.Label>
-            <Form.Control
-              type="number"
-              name="clueCount"
-              placeholder="If unknown, leave blank."
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="dateReceived">
-            <Form.Label>Date Received:</Form.Label>
-            <Form.Control type="date" name="dateReceived" defaultValue={null} />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="submitButton">
-            Add Broadcast
+      <Modal size="lg" show={showModal} onClose={handleCloseModal}>
+        <Modal.Header>
+          <Modal.Title>Add Broadcast</Modal.Title>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
           </Button>
-        </div>
-      </Form>
+        </Modal.Header>
+
+        <Modal.Body>
+          <FilterTierButtons
+            className="tier-filter"
+            buttons={filterNames}
+            filterType="broadcastForm"
+          />
+          <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
+            <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
+
+            <div className="requiredInputs">
+              <Form.Group className="" controlId="method">
+                <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
+                <Form.Select id="source" name="source" className="">
+                  {sources.map((source) => {
+                    return <option key={source}>{source}</option>;
+                  })}
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group className="" controlId="broadcastCount">
+                <Form.Label className="mb-2 broadcastCountLabel">
+                  Broadcast Count:{" "}
+                  <OverlayTrigger
+                    key={testText}
+                    placement="top"
+                    overlay={
+                      <Tooltip id="tooltip-top">
+                        Enter "6" if this was your 6th Orlando Smiths Hat
+                      </Tooltip>
+                    }
+                  >
+                    <ErrorOutlineOutlinedIcon fontSize="small" />
+                  </OverlayTrigger>
+                </Form.Label>
+                <Form.Control
+                  type="number"
+                  name="broadcastCount"
+                  defaultValue={null}
+                  required
+                />
+              </Form.Group>
+            </div>
+
+            <Form.Label className="mt-2 mb-0">Select a broadcast:</Form.Label>
+            <BroadcastImagePicker
+              broadcasts={currentBroadcasts}
+              hasBroadcasts={true}
+              isForm={true}
+            />
+
+            <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
+
+            <div className="optionalInputs">
+              <Form.Group className="mb-3" controlId="clueCount">
+                <Form.Label>Clue Count:</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="clueCount"
+                  placeholder="If unknown, leave blank."
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="dateReceived">
+                <Form.Label>Date Received:</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="dateReceived"
+                  defaultValue={null}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit" className="submitButton">
+                Add Broadcast
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
