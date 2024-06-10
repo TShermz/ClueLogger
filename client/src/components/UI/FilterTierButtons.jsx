@@ -27,7 +27,7 @@ export default function filterTierButtons({ className, buttons, filterType }) {
     if (filterType === "log") {
       dispatch(myLogsActions.filterLog({ filterValue }));
     } else if (filterType === "myBroadcasts") {
-      dispatch(myBroadcastsActions.filterBroadcasts({ filterValue }));
+      dispatch(myBroadcastsActions.filterMyBroadcasts({ filterValue }));
     } else if (filterType === "broadcastForm") {
       dispatch(broadcastFormActions.filterBroadcastForm({ filterValue }));
     }

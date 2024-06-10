@@ -111,7 +111,7 @@ export default function ClueLog() {
           </Link>
         </div>
         <ClueItemArray items={commons} />
-        <BroadcastForm />
+        <BroadcastForm filterType="broadcastForm"/>
       </>
     );
   }

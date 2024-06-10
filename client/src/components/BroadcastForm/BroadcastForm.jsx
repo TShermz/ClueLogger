@@ -32,8 +32,7 @@ const sources = [
 
 const testText = "text";
 
-export default function BroadcastForm({ handleClose }) {
-  // const [showModal, setShowModal] = useState(false);
+export default function BroadcastForm({ handleClose, filterType }) {
   const dispatch = useDispatch();
   const selectedLog = useSelector(
     (state) => state.broadcastForm.currentBroadcastFormFilter
@@ -59,7 +58,6 @@ export default function BroadcastForm({ handleClose }) {
 
   const handleCloseModal = () => {
     dispatch(broadcastFormActions.toggleModal());
-    // setShowModal(false);
     dispatch(broadcastFormActions.resetBroadcastForm());
   };
 
@@ -117,7 +115,7 @@ export default function BroadcastForm({ handleClose }) {
           <FilterTierButtons
             className="tier-filter"
             buttons={filterNames}
-            filterType="broadcastForm"
+            filterType={filterType}
           />
           <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
             <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>

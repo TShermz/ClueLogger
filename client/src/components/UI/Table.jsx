@@ -1,7 +1,6 @@
 import "./Table.css";
 import * as React from "react";
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -22,24 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
-// function createData(id, name, calories, fat, carbs, protein) {
-//   return {
-//     id,
-//     name,
-//     calories,
-//     fat,
-//     carbs,
-//     protein,
-//   };
-// }
-
-// const rows = [
-//   createData(1, "Cupcake", 305, 3.7, 67, 4.3),
-//   createData(2, "Donut", 452, 25.0, 51, 4.9),
-//   createData(3, "Eclair", 262, 16.0, 24, 6.0),
-//   createData(4, "Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData(5, "Gingerbread", 356, 16.0, 49, 3.9),
-// ];
+import { useDispatch, useSelector } from "react-redux";
+import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
 
 function createData(id, dateReceived, tier, name, broadcastCount, clueCount) {
   return {
@@ -76,10 +59,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
+
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -133,6 +113,18 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
   const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
+  const dispatch = useDispatch();
+  const selectedLog = useSelector(
+    (state) => state.myBroadcasts.myBroadcastsFilter
+  );
+
+  function handleShowModal(id) {
+    dispatch(
+      broadcastFormActions.filterBroadcastForm({ filterValue: 'hard' })
+    );
+    dispatch(broadcastFormActions.toggleModal());
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -162,7 +154,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
       ),
     [order, orderBy, page, rowsPerPage, detailedBroadcasts]
   );
-  console.log(detailedBroadcasts);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -216,7 +207,7 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell align="center">
-                      <button>Edit</button>
+                      <button onClick={() => handleShowModal(row.broadcastLogId)}>Edit</button>
                     </TableCell>
                     <TableCell align="center">
                       <img src={casketImg} alt="Casket of Broadcast" />

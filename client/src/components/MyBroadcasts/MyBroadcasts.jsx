@@ -79,7 +79,7 @@ export default function MyBroadcasts() {
           headCells={MyBroadcastsTableHeaders}
           detailedBroadcasts={data}
         />
-        <BroadcastForm />
+        <BroadcastForm filterType="broadcastForm"/>
 
       </>
     );

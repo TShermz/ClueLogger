@@ -7,7 +7,7 @@ const myBroadcastsSlice = createSlice({
   name: "myBroadcasts",
   initialState: initialCounterState,
   reducers: {
-    filterBroadcasts(state, action) {
+    filterMyBroadcasts(state, action) {
       state.myBroadcastsFilter = action.payload.filterValue;
     },
   },
