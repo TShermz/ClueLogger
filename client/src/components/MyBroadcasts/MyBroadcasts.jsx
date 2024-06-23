@@ -6,7 +6,7 @@ import EnhancedTable from "../UI/Table";
 import BroadcastForm from "../BroadcastForm/BroadcastForm";
 import { Button } from "react-bootstrap";
 import { getSession } from "../../util/auth";
-import { getDetailedBroadcasts } from "../../util/broadcasts";
+import { getDetailedBroadcast, getDetailedBroadcasts } from "../../util/broadcasts";
 import { MyBroadcastsTableHeaders } from "../../util/constants";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
 
@@ -42,7 +42,7 @@ export default function MyBroadcasts() {
       broadcastFormActions.filterBroadcastForm({ filterValue: selectedLog })
     );
     dispatch(broadcastFormActions.toggleModal());
-  };
+  }
 
   let content;
 
@@ -73,14 +73,15 @@ export default function MyBroadcasts() {
           buttons={filterNames}
           filterType="myBroadcasts"
         />
-                <Button id='add-broadcast' onClick={handleShowModal}>Add Broadcast</Button>
+        <Button id="add-broadcast" onClick={handleShowModal}>
+          Add Broadcast
+        </Button>
 
         <EnhancedTable
           headCells={MyBroadcastsTableHeaders}
           detailedBroadcasts={data}
         />
-        <BroadcastForm filterType="broadcastForm"/>
-
+        <BroadcastForm />
       </>
     );
   }

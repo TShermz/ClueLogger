@@ -24,25 +24,6 @@ import { visuallyHidden } from "@mui/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
 
-function createData(id, dateReceived, tier, name, broadcastCount, clueCount) {
-  return {
-    id,
-    dateReceived: new Date(dateReceived),
-    tier,
-    name,
-    broadcastCount,
-    clueCount,
-  };
-}
-
-const rows = [
-  createData(1, "2024-12-12", "Hard", "Barrows dye", 1, 1000),
-  createData(2, "2024-12-13", "Hard", "Barrows dye", 2, 1200),
-  createData(3, "2024-12-14", "Hard", "Barrows dye", 3, 2400),
-  createData(4, "2024-12-15", "Hard", "Barrows dye", 4, 3600),
-  createData(5, "2024-12-16", "Hard", "Barrows dye", 5, 5400),
-];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -58,7 +39,6 @@ function getComparator(order, orderBy) {
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -119,11 +99,9 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
   );
 
   function handleShowModal(id) {
-    dispatch(
-      broadcastFormActions.filterBroadcastForm({ filterValue: 'hard' })
-    );
-    dispatch(broadcastFormActions.toggleModal());
-  };
+    dispatch(broadcastFormActions.filterBroadcastForm({ filterValue: "hard" }));
+    dispatch(broadcastFormActions.toggleModal({ id }));
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -192,10 +170,9 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                 const casketImg = `/hidden/other/Reward_casket_(${row.clueTier}).png`;
                 const displayName = row.broadcastName.replaceAll("_", " ");
                 const displayDate = row.dateReceived
-                  ? new Date(row.dateReceived).toLocaleDateString(
-                      undefined,
-                      options
-                    )
+                  ? new Date(row.dateReceived).toLocaleDateString("en-US", {
+                      timeZone: "UTC",
+                    })
                   : "Unknown";
 
                 return (
@@ -203,11 +180,15 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.broadcastLogId}
+                    key={row.broadcastId}
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell align="center">
-                      <button onClick={() => handleShowModal(row.broadcastLogId)}>Edit</button>
+                      <button
+                        onClick={() => handleShowModal(row.broadcastId)}
+                      >
+                        Edit
+                      </button>
                     </TableCell>
                     <TableCell align="center">
                       <img src={casketImg} alt="Casket of Broadcast" />
@@ -261,3 +242,22 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
     </Box>
   );
 }
+
+// function createData(id, dateReceived, tier, name, broadcastCount, clueCount) {
+//   return {
+//     id,
+//     dateReceived: new Date(dateReceived),
+//     tier,
+//     name,
+//     broadcastCount,
+//     clueCount,
+//   };
+// }
+
+// const rows = [
+//   createData(1, "2024-12-12", "Hard", "Barrows dye", 1, 1000),
+//   createData(2, "2024-12-13", "Hard", "Barrows dye", 2, 1200),
+//   createData(3, "2024-12-14", "Hard", "Barrows dye", 3, 2400),
+//   createData(4, "2024-12-15", "Hard", "Barrows dye", 4, 3600),
+//   createData(5, "2024-12-16", "Hard", "Barrows dye", 5, 5400),
+// ];

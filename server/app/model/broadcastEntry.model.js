@@ -1,6 +1,6 @@
 function BroadcastEntry(sequelize, Sequelize) {
   const BroadcastEntry = sequelize.define("broadcastEntry", {
-    broadcastLogId: {
+    broadcastId: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
@@ -18,7 +18,7 @@ function BroadcastEntry(sequelize, Sequelize) {
       type: Sequelize.INTEGER,
     },
     dateReceived: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     source: {
       type: Sequelize.STRING

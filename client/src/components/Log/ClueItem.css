@@ -58,8 +58,7 @@
 .selected-broadcast {
   border: 2px solid #dadada;
   border-radius: 7px;
-  background-color: rgba(182, 187, 141, 0.794);
-
+  background-color: rgba(59, 133, 190, 0.794);
 }
 
 #tooltip-top {

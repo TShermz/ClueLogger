@@ -9,7 +9,7 @@ const myBroadcastsSlice = createSlice({
   reducers: {
     filterMyBroadcasts(state, action) {
       state.myBroadcastsFilter = action.payload.filterValue;
-    },
+    }
   },
 });
 

@@ -1,7 +1,8 @@
 import "./BroadcastForm.css";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Modal from "react-bootstrap/Modal";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -17,7 +18,11 @@ import {
 
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
 import { myLogsActions } from "../../store/slices/myLogsSlice";
-import { addBroadcast } from "../../util/broadcasts";
+import {
+  addBroadcast,
+  getDetailedBroadcast,
+  editBroadcast,
+} from "../../util/broadcasts";
 import { queryClient } from "../../util/http";
 
 const filterNames = ["hard", "elite", "master"];
@@ -32,19 +37,57 @@ const sources = [
 
 const testText = "text";
 
-export default function BroadcastForm({ handleClose, filterType }) {
+export default function BroadcastForm({ handleClose }) {
   const dispatch = useDispatch();
+
   const selectedLog = useSelector(
     (state) => state.broadcastForm.currentBroadcastFormFilter
   );
-
   const selectedBroadcast = useSelector(
     (state) => state.broadcastForm.selectedBroadcast
   );
 
+  const editBroadcastId = useSelector(
+    (state) => state.broadcastForm.editBroadcastId
+  );
+
+  const isEditing = useSelector((state) => state.broadcastForm.isEditing);
+
   const showModal = useSelector((state) => state.broadcastForm.showModal);
 
-  const { mutate } = useMutation({
+  const {
+    data: editData,
+    isPending: editIsPending,
+    isError: editIsError,
+    error: editError,
+    status: editStatus,
+  } = useQuery({
+    queryKey: ["myBroadcasts", editBroadcastId],
+    queryFn: async () => {
+      let detailedBroadcast = await getDetailedBroadcast({
+        id: editBroadcastId,
+      });
+      return detailedBroadcast;
+    },
+  });
+
+  //introduce useEffect to track when the selectedBroadcast and filterValue change when new items are edits
+  useEffect(() => {
+    if (editStatus === "success") {
+      dispatch(
+        broadcastFormActions.filterBroadcastForm({
+          filterValue: editData?.clueTier,
+        })
+      );
+      dispatch(
+        broadcastFormActions.selectBroadcast({
+          broadcast: editData?.broadcastName,
+        })
+      );
+    }
+  }, [editStatus, editData]);
+
+  const { mutate: addMutate } = useMutation({
     mutationFn: addBroadcast,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -53,6 +96,18 @@ export default function BroadcastForm({ handleClose, filterType }) {
       });
       dispatch(myLogsActions.filterLog({ filterValue: selectedLog }));
       handleClose();
+    },
+  });
+
+  const { mutate: editMutate } = useMutation({
+    mutationFn: editBroadcast,
+    onSuccess: () => {
+      handleClose();
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myBroadcasts"],
+      });
     },
   });
 
@@ -89,9 +144,10 @@ export default function BroadcastForm({ handleClose, filterType }) {
       ...data,
       clueTier: selectedLog,
       broadcastName: selectedBroadcast,
+      broadcastId: isEditing ? editData.broadcastId : null,
     };
+    isEditing ? editMutate(allData) : addMutate(allData);
 
-    mutate(allData);
     dispatch(broadcastFormActions.toggleModal());
 
     // errorData = await onSubmit(data, mode);
@@ -105,7 +161,9 @@ export default function BroadcastForm({ handleClose, filterType }) {
 
       <Modal size="lg" show={showModal} onClose={handleCloseModal}>
         <Modal.Header>
-          <Modal.Title>Add Broadcast</Modal.Title>
+          <Modal.Title>
+            {isEditing ? "Edit Broadcast" : "Add Broadcast"}
+          </Modal.Title>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
@@ -115,7 +173,7 @@ export default function BroadcastForm({ handleClose, filterType }) {
           <FilterTierButtons
             className="tier-filter"
             buttons={filterNames}
-            filterType={filterType}
+            filterType="broadcastForm"
           />
           <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
             <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
@@ -123,7 +181,12 @@ export default function BroadcastForm({ handleClose, filterType }) {
             <div className="requiredInputs">
               <Form.Group className="" controlId="method">
                 <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
-                <Form.Select id="source" name="source" className="">
+                <Form.Select
+                  id="source"
+                  name="source"
+                  className=""
+                  defaultValue={editData?.source}
+                >
                   {sources.map((source) => {
                     return <option key={source}>{source}</option>;
                   })}
@@ -148,7 +211,9 @@ export default function BroadcastForm({ handleClose, filterType }) {
                 <Form.Control
                   type="number"
                   name="broadcastCount"
-                  defaultValue={null}
+                  defaultValue={editData?.broadcastCount}
+                  min={1}
+                  max={250}
                   required
                 />
               </Form.Group>
@@ -159,6 +224,7 @@ export default function BroadcastForm({ handleClose, filterType }) {
               broadcasts={currentBroadcasts}
               hasBroadcasts={true}
               isForm={true}
+              defaultValue={editData?.broadcastName}
             />
 
             <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
@@ -170,6 +236,9 @@ export default function BroadcastForm({ handleClose, filterType }) {
                   type="number"
                   name="clueCount"
                   placeholder="If unknown, leave blank."
+                  defaultValue={editData?.clueCount}
+                  min={1}
+                  max={300000}
                 />
               </Form.Group>
 
@@ -178,11 +247,11 @@ export default function BroadcastForm({ handleClose, filterType }) {
                 <Form.Control
                   type="date"
                   name="dateReceived"
-                  defaultValue={null}
+                  defaultValue={editData?.dateReceived ?? null}
                 />
               </Form.Group>
               <Button variant="primary" type="submit" className="submitButton">
-                Add Broadcast
+                Save Broadcast
               </Button>
             </div>
           </Form>

@@ -42,8 +42,10 @@ export default function ClueLog() {
     error: broadcastsError,
   } = useQuery({
     queryKey: ["myBroadcasts", selectedLog],
-    queryFn: () => getBroadcasts({ selectedLogName: selectedLog }),
+    queryFn: ({signal}) => getBroadcasts({ signal, selectedLogName: selectedLog }),
   });
+
+  console.log(selectedLog);
 
   function handleEditing() {
     dispatch(myLogsActions.toggleEdit());
@@ -111,7 +113,7 @@ export default function ClueLog() {
           </Link>
         </div>
         <ClueItemArray items={commons} />
-        <BroadcastForm filterType="broadcastForm"/>
+        <BroadcastForm />
       </>
     );
   }
