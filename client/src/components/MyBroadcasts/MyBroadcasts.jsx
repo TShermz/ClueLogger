@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
 import FilterTierButtons from "../UI/FilterTierButtons";
 import EnhancedTable from "../UI/Table";
-import BroadcastForm from "../BroadcastForm/BroadcastForm";
+import BroadcastForm from "../Modals/BroadcastForm";
 import { Button } from "react-bootstrap";
 import { getSession } from "../../util/auth";
 import { getDetailedBroadcast, getDetailedBroadcasts } from "../../util/broadcasts";

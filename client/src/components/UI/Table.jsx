@@ -21,6 +21,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
+import EditBroadcastMenu from './EditBroadcastMenu'
+
 import { useDispatch, useSelector } from "react-redux";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice";
 
@@ -97,11 +99,6 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
   const selectedLog = useSelector(
     (state) => state.myBroadcasts.myBroadcastsFilter
   );
-
-  function handleShowModal(id) {
-    dispatch(broadcastFormActions.filterBroadcastForm({ filterValue: "hard" }));
-    dispatch(broadcastFormActions.toggleModal({ id }));
-  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -184,11 +181,7 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell align="center">
-                      <button
-                        onClick={() => handleShowModal(row.broadcastId)}
-                      >
-                        Edit
-                      </button>
+                      <EditBroadcastMenu id={row.broadcastId}/>
                     </TableCell>
                     <TableCell align="center">
                       <img src={casketImg} alt="Casket of Broadcast" />

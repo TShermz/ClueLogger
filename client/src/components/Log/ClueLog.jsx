@@ -9,7 +9,7 @@ import { getBroadcasts } from "../../util/broadcasts.js";
 import { myLogsActions } from "../../store/slices/myLogsSlice.js";
 import ClueItemArray from "./ClueItemArray.jsx";
 import FilterTierButtons from "../UI/FilterTierButtons";
-import BroadcastForm from "../BroadcastForm/BroadcastForm.jsx";
+import BroadcastForm from "../Modals/BroadcastForm.jsx";
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 

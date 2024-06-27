@@ -1,4 +1,4 @@
-import "./BroadcastForm.css";
+import "./Modals.css";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
@@ -7,23 +7,24 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Modal from "react-bootstrap/Modal";
 import Tooltip from "react-bootstrap/Tooltip";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import FilterTierButtons from "../UI/FilterTierButtons";
-import ErrorBlock from "../UI/ErrorBlock";
-import BroadcastImagePicker from "./BroadcastImagePicker";
+import FilterTierButtons from "../UI/FilterTierButtons.jsx";
+import ErrorBlock from "../UI/ErrorBlock.jsx";
+import BroadcastImagePicker from "../UI/BroadcastImagePicker.jsx";
 import {
   hardBroadcasts,
   eliteBroadcasts,
   masterBroadcasts,
-} from "../../util/constants";
+} from "../../util/constants.js";
 
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
-import { myLogsActions } from "../../store/slices/myLogsSlice";
+import { myLogsActions } from "../../store/slices/myLogsSlice.js";
 import {
   addBroadcast,
   getDetailedBroadcast,
   editBroadcast,
-} from "../../util/broadcasts";
-import { queryClient } from "../../util/http";
+  deleteBroadcast
+} from "../../util/broadcasts.js";
+import { queryClient } from "../../util/http.js";
 
 const filterNames = ["hard", "elite", "master"];
 const sources = [
@@ -51,9 +52,15 @@ export default function BroadcastForm({ handleClose }) {
     (state) => state.broadcastForm.editBroadcastId
   );
 
-  const isEditing = useSelector((state) => state.broadcastForm.isEditing);
+  const deleteBroadcastId = useSelector(
+    (state) => state.broadcastForm.deleteBroadcastId
+  );
 
+  const isEditing = useSelector((state) => state.broadcastForm.isEditing);
+  const isDeleting = useSelector((state) => state.broadcastForm.isDeleting);
   const showModal = useSelector((state) => state.broadcastForm.showModal);
+
+  let content;
 
   const {
     data: editData,
@@ -111,9 +118,21 @@ export default function BroadcastForm({ handleClose }) {
     },
   });
 
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: deleteBroadcast,
+    onSuccess: () => {
+      handleClose();
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myBroadcasts"],
+      });
+    },
+  });
+
   const handleCloseModal = () => {
     dispatch(broadcastFormActions.toggleModal());
-    dispatch(broadcastFormActions.resetBroadcastForm());
+    dispatch(broadcastFormActions.reset());
   };
 
   let currentBroadcasts, errorData;
@@ -126,8 +145,14 @@ export default function BroadcastForm({ handleClose }) {
     currentBroadcasts = masterBroadcasts;
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function handleDeleteBroadcast (){
+    deleteMutate(deleteBroadcastId);
+    dispatch(broadcastFormActions.reset());
+    dispatch(broadcastFormActions.toggleModal());
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
 
     if (selectedBroadcast === undefined) {
       console.log("error");
@@ -137,7 +162,7 @@ export default function BroadcastForm({ handleClose }) {
       });
     }
 
-    const formData = new FormData(event.target);
+    const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 
     const allData = {
@@ -153,13 +178,29 @@ export default function BroadcastForm({ handleClose }) {
     // errorData = await onSubmit(data, mode);
   }
 
-  return (
-    <>
-      {errorData && (
-        <ErrorBlock title={errorData.title} message={errorData.message} />
-      )}
+  if (isDeleting) {
+    content = (
+      <>
+        <Modal.Header>
+          <Modal.Title>Confirm Broadcast Deletion</Modal.Title>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+        </Modal.Header>
 
-      <Modal size="lg" show={showModal} onClose={handleCloseModal}>
+        <Modal.Body>
+        <Button id="deleteBroadcastButton" variant="secondary" onClick={handleDeleteBroadcast}>
+            Yes, delete.
+          </Button>
+          <Button id="keepBroadcastButton" variant="secondary" onClick={handleCloseModal}>
+            No! I want to keep it.
+          </Button>
+        </Modal.Body>
+      </>
+    );
+  } else {
+    content = (
+      <>
         <Modal.Header>
           <Modal.Title>
             {isEditing ? "Edit Broadcast" : "Add Broadcast"}
@@ -256,6 +297,17 @@ export default function BroadcastForm({ handleClose }) {
             </div>
           </Form>
         </Modal.Body>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {errorData && (
+        <ErrorBlock title={errorData.title} message={errorData.message} />
+      )}
+      <Modal size="lg" show={showModal} onClose={handleCloseModal}>
+        {content}
       </Modal>
     </>
   );

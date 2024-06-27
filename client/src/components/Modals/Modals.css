@@ -70,3 +70,14 @@
   width: 33%;
   height: 5rem;
 }
+
+#deleteBroadcastButton { 
+  background-color: rgba(255, 0, 0, 0.688);
+  color: black;
+  margin-right: 1rem;
+}
+
+#keepBroadcastButton {
+  background-color: yellow;
+  color: black;
+}

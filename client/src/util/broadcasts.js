@@ -66,6 +66,28 @@ export async function editBroadcast(data) {
   return detailedBroadcast;
 }
 
+export async function deleteBroadcast(id) {
+  console.log(id);
+  const response = await fetch(`http://localhost:8080/broadcast/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // "mode": "no-cors"
+    },
+    body: JSON.stringify({id}),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw json({
+      message: "Could not retrieve detailed broadcast by that ID.",
+      status: 500,
+    });
+  }
+  return await response.json();
+}
+
 export async function getDetailedBroadcast({id}) {
   const response = await fetch(`http://localhost:8080/detailedbroadcast/${id}`, {
     method: "GET",

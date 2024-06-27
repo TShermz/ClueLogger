@@ -17,3 +17,12 @@ tr,td {
   width: auto;
   height: auto;
 }
+
+#edit-button {
+  background-color: green;
+}
+
+#delete-button {
+  background-color: red;
+  width: 100%;
+}

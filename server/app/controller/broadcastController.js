@@ -124,7 +124,54 @@ async function editBroadcast(req, res) {
     await existingBroadcastEntry.update(editedBroadcastEntry);
     await existingBroadcastEntry.save();
 
-    res.status(200).json({ message: "Broadcast log succesfully updated." });
+    res.status(200).json({ message: "Broadcast succesfully updated." });
+  } catch (error) {
+    console.log(err);
+  }
+}
+
+async function deleteBroadcast(req, res) {
+  let deleteBroadcastId = req.body.id;
+
+  try {
+    if (!req.session.user) {
+      return res
+        .status(410)
+        .json({ message: "Please log in to edit broadcasts." });
+    }
+
+    let existingBroadcastLog = await BroadcastLog.findOne({
+      where: { userId: req.session.user.id },
+    });
+
+    let existingBroadcastEntry = await BroadcastEntry.findOne({
+      where: { broadcastId: deleteBroadcastId },
+    });
+
+    if (!existingBroadcastLog) {
+      return res.status(400).json({
+        message: "Unable to find existing broadcast log; please try logging in.",
+      });
+    };
+
+    if (!existingBroadcastEntry) {
+      return res.status(400).json({
+        message: "Unable to find existing broadcast entry to delete; please try logging in.",
+      });
+    }
+
+    console.log(existingBroadcastEntry);
+
+    let existingBroadcastName = existingBroadcastEntry.broadcastName;
+
+    //Update existing user's broadcast log
+      existingBroadcastLog[existingBroadcastName]--;
+      existingBroadcastLog.save();
+
+    //Update the existing broadcast entry
+    await existingBroadcastEntry.destroy();
+
+    res.status(200).json({ message: "Broadcast deleted." });
   } catch (error) {
     console.log(err);
   }
@@ -165,41 +212,11 @@ async function getDetailedBroadcasts(req, res) {
   return res.status(200).json(detailedBroadcasts);
 }
 
-//Helper functions (remove this function and just move commands in the original functions)
-async function updateBroadcastLog(
-  method,
-  existingBroadcastLog,
-  editedBroadcastName,
-  existingBroadcastName,
-  newBroadcastData
-) {
-  //three cases: add, edit, or delete
-  if (method === "POST") {
-    //update existing log value
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaa ' + editedBroadcastName.broadcastName)
-    let broadcastName = newBroadcastData.broadcastName;
-    existingBroadcastLog[broadcastName]++;
-    existingBroadcastLog.save();
-
-    return { message: "Broadcast log succesfully updated." };
-  } else if (method === "PUT") {
-    //decrementing old broadcast count and incrementing edited broadcast amount
-    existingBroadcastLog[existingBroadcastName]--;
-    existingBroadcastLog[editedBroadcastName]--;
-    existingBroadcastLog.save();
-
-    return { message: "Broadcast log succesfully updated." };
-  } else if (method === "DELETE") {
-    return;
-  } else {
-    return;
-  }
-}
-
 export default {
   getBroadcasts,
   addBroadcast,
   editBroadcast,
+  deleteBroadcast,
   getDetailedBroadcast,
   getDetailedBroadcasts,
 };
