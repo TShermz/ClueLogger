@@ -17,6 +17,9 @@ function BroadcastEntry(sequelize, Sequelize) {
     clueCount: {
       type: Sequelize.INTEGER,
     },
+    sellPrice: {
+      type: Sequelize.INTEGER,
+    },
     dateReceived: {
       type: Sequelize.DATEONLY,
     },

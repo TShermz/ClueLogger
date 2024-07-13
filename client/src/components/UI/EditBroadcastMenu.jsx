@@ -22,7 +22,6 @@ export default function LongMenu({id}) {
   };
 
   function handleShowModal(id, formType) {
-    console.log('this is: ' + formType);
     dispatch(broadcastFormActions.filterBroadcastForm({ filterValue: "hard" }));
     dispatch(broadcastFormActions.toggleModal({ id, formType }));
     handleCloseDropdown();

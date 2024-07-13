@@ -5,8 +5,6 @@
 
 .MuiToolbar-root, .MuiTableHead-root {
   background-color: rgb(146, 144, 144);
-  /* border: black; */
-  font-weight: bold;
 }
 
 tr,td {

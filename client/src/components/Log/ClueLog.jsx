@@ -45,8 +45,6 @@ export default function ClueLog() {
     queryFn: ({signal}) => getBroadcasts({ signal, selectedLogName: selectedLog }),
   });
 
-  console.log(selectedLog);
-
   function handleEditing() {
     dispatch(myLogsActions.toggleEdit());
   };

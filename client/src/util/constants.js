@@ -1,3 +1,15 @@
+export const broadcastTierFilters = ["hard", "elite", "master"];
+export const allBroadcastTierFilters = ["all", "hard", "elite", "master"];
+
+export const casketSources = [
+  "Clue Scroll",
+  "Giant Oyster",
+  "OSH Proc",
+  "Penguin Casket",
+  "Quest Dice",
+  "Wilderness Flash Event",
+];
+
 export const hardBroadcasts = {
   Explosive_barrel: null,
   Backstab_cape: null,
@@ -96,5 +108,11 @@ export const MyBroadcastsTableHeaders = [
     numeric: false,
     disablePadding: false,
     label: "Date",
+  },
+  {
+    id: "sellPrice",
+    numeric: true,
+    disablePadding: false,
+    label: "Sell Price",
   }
 ];

@@ -14,6 +14,8 @@ import {
   hardBroadcasts,
   eliteBroadcasts,
   masterBroadcasts,
+  broadcastTierFilters,
+  casketSources
 } from "../../util/constants.js";
 
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
@@ -25,16 +27,6 @@ import {
   deleteBroadcast
 } from "../../util/broadcasts.js";
 import { queryClient } from "../../util/http.js";
-
-const filterNames = ["hard", "elite", "master"];
-const sources = [
-  "Clue Scroll",
-  "Giant Oyster",
-  "OSH Proc",
-  "Penguin Casket",
-  "Quest Dice",
-  "Wilderness Flash Event",
-];
 
 const testText = "text";
 
@@ -164,6 +156,7 @@ export default function BroadcastForm({ handleClose }) {
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
+    data.dateReceived = data.dateReceived === '' ? null : data.dateReceived;
 
     const allData = {
       ...data,
@@ -213,7 +206,7 @@ export default function BroadcastForm({ handleClose }) {
         <Modal.Body>
           <FilterTierButtons
             className="tier-filter"
-            buttons={filterNames}
+            buttons={broadcastTierFilters}
             filterType="broadcastForm"
           />
           <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
@@ -228,7 +221,7 @@ export default function BroadcastForm({ handleClose }) {
                   className=""
                   defaultValue={editData?.source}
                 >
-                  {sources.map((source) => {
+                  {casketSources.map((source) => {
                     return <option key={source}>{source}</option>;
                   })}
                 </Form.Select>
@@ -271,26 +264,36 @@ export default function BroadcastForm({ handleClose }) {
             <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
 
             <div className="optionalInputs">
-              <Form.Group className="mb-3" controlId="clueCount">
+              <Form.Group className="mb-13" controlId="clueCount">
                 <Form.Label>Clue Count:</Form.Label>
                 <Form.Control
                   type="number"
                   name="clueCount"
-                  placeholder="If unknown, leave blank."
                   defaultValue={editData?.clueCount}
                   min={1}
                   max={300000}
                 />
               </Form.Group>
 
+              <Form.Group className="mb-3" controlId="sellPrice">
+                <Form.Label>Sell Price:</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="sellPrice"
+                  defaultValue={editData?.sellPrice}
+                  min={0}
+                />
+              </Form.Group>
+
               <Form.Group className="mb-3" controlId="dateReceived">
                 <Form.Label>Date Received:</Form.Label>
                 <Form.Control
-                  type="date"
+                  type="text"
                   name="dateReceived"
                   defaultValue={editData?.dateReceived ?? null}
                 />
               </Form.Group>
+
               <Button variant="primary" type="submit" className="submitButton">
                 Save Broadcast
               </Button>

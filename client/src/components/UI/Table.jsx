@@ -170,7 +170,7 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                   ? new Date(row.dateReceived).toLocaleDateString("en-US", {
                       timeZone: "UTC",
                     })
-                  : "Unknown";
+                  : "-";
 
                 return (
                   <TableRow
@@ -195,17 +195,24 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
                       />
                     </TableCell>
                     <TableCell>{displayName}</TableCell>
-                    <TableCell align="right">#{row.broadcastCount}</TableCell>
+                    <TableCell align="right">#{row.broadcastCount?.toLocaleString()}</TableCell>
                     <TableCell align="right">
-                      {row.clueCount === "" ? "Unknown" : row.clueCount}
+                      {row.clueCount === "" ? "-" : row.clueCount?.toLocaleString()}
                     </TableCell>
                     <TableCell
-                      component="th"
                       id={labelId}
                       scope="row"
                       padding="normal"
                     >
                       {displayDate}
+                    </TableCell>
+                    <TableCell
+                      id={labelId}
+                      scope="row"
+                      padding="normal"
+                      align="right"
+                    >
+                      {row.sellPrice === null ? "-" :row.sellPrice?.toLocaleString()}
                     </TableCell>
                   </TableRow>
                 );
@@ -235,22 +242,3 @@ export default function EnhancedTable({ headCells, detailedBroadcasts }) {
     </Box>
   );
 }
-
-// function createData(id, dateReceived, tier, name, broadcastCount, clueCount) {
-//   return {
-//     id,
-//     dateReceived: new Date(dateReceived),
-//     tier,
-//     name,
-//     broadcastCount,
-//     clueCount,
-//   };
-// }
-
-// const rows = [
-//   createData(1, "2024-12-12", "Hard", "Barrows dye", 1, 1000),
-//   createData(2, "2024-12-13", "Hard", "Barrows dye", 2, 1200),
-//   createData(3, "2024-12-14", "Hard", "Barrows dye", 3, 2400),
-//   createData(4, "2024-12-15", "Hard", "Barrows dye", 4, 3600),
-//   createData(5, "2024-12-16", "Hard", "Barrows dye", 5, 5400),
-// ];

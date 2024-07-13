@@ -67,7 +67,6 @@ export async function editBroadcast(data) {
 }
 
 export async function deleteBroadcast(id) {
-  console.log(id);
   const response = await fetch(`http://localhost:8080/broadcast/delete`, {
     method: "DELETE",
     headers: {
