@@ -10,13 +10,12 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import FilterTierButtons from "../UI/FilterTierButtons.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 import BroadcastImagePicker from "../UI/BroadcastImagePicker.jsx";
-import SingleBroadcastForm from "./SingleBroadcastForm.jsx";
 import {
   hardBroadcasts,
   eliteBroadcasts,
   masterBroadcasts,
   broadcastTierFilters,
-  casketSources
+  casketSources,
 } from "../../util/constants.js";
 
 import { broadcastFormActions } from "../../store/slices/broadcastFormSlice.js";
@@ -25,13 +24,13 @@ import {
   addBroadcast,
   getDetailedBroadcast,
   editBroadcast,
-  deleteBroadcast
+  deleteBroadcast,
 } from "../../util/broadcasts.js";
 import { queryClient } from "../../util/http.js";
 
 const testText = "text";
 
-export default function BroadcastForm({ handleClose }) {
+export default function SingleBroadcastForm({ handleClose }) {
   const dispatch = useDispatch();
 
   const selectedLog = useSelector(
@@ -138,7 +137,7 @@ export default function BroadcastForm({ handleClose }) {
     currentBroadcasts = masterBroadcasts;
   }
 
-  async function handleDeleteBroadcast (){
+  async function handleDeleteBroadcast() {
     deleteMutate(deleteBroadcastId);
     dispatch(broadcastFormActions.reset());
     dispatch(broadcastFormActions.toggleModal());
@@ -157,7 +156,7 @@ export default function BroadcastForm({ handleClose }) {
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    data.dateReceived = data.dateReceived === '' ? null : data.dateReceived;
+    data.dateReceived = data.dateReceived === "" ? null : data.dateReceived;
 
     const allData = {
       ...data,
@@ -172,40 +171,114 @@ export default function BroadcastForm({ handleClose }) {
     // errorData = await onSubmit(data, mode);
   }
 
-  if (isDeleting) {
-    content = (
-      <>
-        <Modal.Header>
-          <Modal.Title>Confirm Broadcast Deletion</Modal.Title>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Cancel
-          </Button>
-        </Modal.Header>
-
-        <Modal.Body>
-        <Button id="deleteBroadcastButton" variant="secondary" onClick={handleDeleteBroadcast}>
-            Yes, delete.
-          </Button>
-          <Button id="keepBroadcastButton" variant="secondary" onClick={handleCloseModal}>
-            No! I want to keep it.
-          </Button>
-        </Modal.Body>
-      </>
-    );
-  } else {
-    content = (
-      <SingleBroadcastForm />
-    );
-  }
-
-  return (
+  return (content = (
     <>
-      {errorData && (
-        <ErrorBlock title={errorData.title} message={errorData.message} />
-      )}
-      <Modal size="lg" show={showModal} onClose={handleCloseModal}>
-        {content}
-      </Modal>
+      <Modal.Header>
+        <Modal.Title>
+          {isEditing ? "Edit Broadcast" : "Add Broadcast"}
+        </Modal.Title>
+        <Button variant="secondary" onClick={handleCloseModal}>
+          Cancel
+        </Button>
+      </Modal.Header>
+
+      <Modal.Body>
+        <FilterTierButtons
+          className="tier-filter"
+          buttons={broadcastTierFilters}
+          filterType="broadcastForm"
+        />
+        <Form id="broadcastForm" onSubmit={handleSubmit} className="form">
+          <h5 style={{ fontWeight: "bold" }}>Required Information:</h5>
+
+          <div className="requiredInputs">
+            <Form.Group className="" controlId="method">
+              <Form.Label className="mb-2">Method of Obtaining:</Form.Label>
+              <Form.Select
+                id="source"
+                name="source"
+                className=""
+                defaultValue={editData?.source}
+              >
+                {casketSources.map((source) => {
+                  return <option key={source}>{source}</option>;
+                })}
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="" controlId="broadcastCount">
+              <Form.Label className="mb-2 broadcastCountLabel">
+                Broadcast Count:{" "}
+                <OverlayTrigger
+                  key={testText}
+                  placement="top"
+                  overlay={
+                    <Tooltip id="tooltip-top">
+                      Enter "6" if this was your 6th Orlando Smiths Hat
+                    </Tooltip>
+                  }
+                >
+                  <ErrorOutlineOutlinedIcon fontSize="small" />
+                </OverlayTrigger>
+              </Form.Label>
+              <Form.Control
+                type="number"
+                name="broadcastCount"
+                defaultValue={editData?.broadcastCount}
+                min={1}
+                max={250}
+                required
+              />
+            </Form.Group>
+          </div>
+
+          <Form.Label className="mt-2 mb-0">Select a broadcast:</Form.Label>
+          <BroadcastImagePicker
+            broadcasts={currentBroadcasts}
+            hasBroadcasts={true}
+            isForm={true}
+            defaultValue={editData?.broadcastName}
+          />
+
+          <h5 style={{ fontWeight: "bold" }}>Optional Information:</h5>
+
+          <div className="optionalInputs">
+            <Form.Group className="mb-13" controlId="clueCount">
+              <Form.Label>Clue Count:</Form.Label>
+              <Form.Control
+                type="number"
+                name="clueCount"
+                defaultValue={editData?.clueCount}
+                min={1}
+                max={300000}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="sellPrice">
+              <Form.Label>Sell Price:</Form.Label>
+              <Form.Control
+                type="number"
+                name="sellPrice"
+                defaultValue={editData?.sellPrice}
+                min={0}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="dateReceived">
+              <Form.Label>Date Received:</Form.Label>
+              <Form.Control
+                type="text"
+                name="dateReceived"
+                defaultValue={editData?.dateReceived ?? null}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="submitButton">
+              Save Broadcast
+            </Button>
+          </div>
+        </Form>
+      </Modal.Body>
     </>
-  );
+  ));
 }
